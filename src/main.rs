@@ -1,18 +1,25 @@
 mod pages;
+mod services;
 mod structs;
 
 use std::env;
 
 use askama_axum::IntoResponse;
-use axum::{http::StatusCode, routing::get, Router};
-use mongodb::{
-    options::{ClientOptions, ResolverConfig},
-    Client,
+use axum::{
+    http::StatusCode,
+    middleware,
+    routing::{get, post},
+    Router,
 };
+use mongodb::{options::ClientOptions, Client};
 use pages::templates::Index;
 use tower_http::services::ServeFile;
 
-use crate::{pages::login::user_login_page, structs::common::DatabaseConfig};
+use crate::{
+    pages::dashboard::dashboard,
+    services::{auth::user_login, jwt_auth::auth},
+    structs::database::DatabaseConfig,
+};
 
 async fn index() -> Index {
     Index {}
@@ -36,7 +43,11 @@ async fn main() {
 
     let app = Router::new()
         .route("/", get(index))
-        .route("/dashboard", get(user_login_page))
+        .route(
+            "/dashboard",
+            get(dashboard).route_layer(middleware::from_fn_with_state(client.clone(), auth)),
+        )
+        .route("/login", post(user_login))
         .route_service("/css/global.css", ServeFile::new("statics/global.css"));
 
     let app = app.fallback(handler_404).with_state(client);

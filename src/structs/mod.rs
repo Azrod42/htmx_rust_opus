@@ -1,2 +1,4 @@
-pub mod common;
-pub mod user;
+pub mod auth;
+pub mod database;
+pub mod entity;
+pub mod jwt_token;

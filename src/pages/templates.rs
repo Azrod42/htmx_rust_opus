@@ -13,6 +13,8 @@ pub struct Index {}
 
 #[derive(Template)]
 #[template(path = "login.html")]
-pub struct Login {
-    pub name: String,
-}
+pub struct Login {}
+
+#[derive(Template)]
+#[template(path = "dashboard.html")]
+pub struct Dashboard {}

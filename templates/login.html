@@ -1,13 +1,16 @@
-<div>
-    <form hx-post="/login" hx-ext='json-enc' hx-target="#body">
-      <div class="form-group">
-        <label>Email Address</label>
-        <input name="email" type="email">
-      </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input name="password" type="password">
-      </div>
-      <button class="btn btn-default" type="submit">Submit</button>
-    </form>
+<div class="login_form-container">
+<form hx-post="/login" hx-ext='json-enc' hx-target="#body" class="login_form">
+  <h1 class="login_title">Login</h1>
+  <hr/>
+  <div class="login_form-group">
+    <label>Email Address</label>
+    <input name="email" type="email">
+  </div>
+  <div class="login_form-group">
+    <label>Password</label>
+    <input name="password" type="password">
+  </div>
+  <button class="btn btn-default" type="submit">Submit</button>
+</form>
 </div>
+

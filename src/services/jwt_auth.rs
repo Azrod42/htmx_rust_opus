@@ -1,4 +1,4 @@
-use askama_axum::{IntoResponse, Response};
+use askama_axum::IntoResponse;
 use axum::{
     body::Body,
     extract::{Request, State},
@@ -69,8 +69,6 @@ pub async fn auth(
         }
         Err(_) => return Err((StatusCode::ACCEPTED, Login {})),
     }
-
-    println!("{:?}", claims);
 
     req.extensions_mut().insert(user);
     Ok(next.run(req).await)

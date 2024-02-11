@@ -1,0 +1,29 @@
+.login_form-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login_form {
+  border: 1px solid #2f2f2f;
+  width: 337px;
+  height: 400px;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.login_title {
+  margin-top: 40px;
+}
+
+.login_form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}

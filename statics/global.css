@@ -1,4 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@200;400;700&display=swap');
+
 body {
   background-color: #121212;
   color: white;
+  margin: 0;
+  font-family: Barlow;
+}
+
+hr {
+  width: 70%;
+  border: 0 solid #2f2f2f;
+  border-bottom: 0.5px solid #2f2f2f;
+  margin: 0;
 }

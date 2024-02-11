@@ -18,3 +18,7 @@ pub struct Login {}
 #[derive(Template)]
 #[template(path = "dashboard.html")]
 pub struct Dashboard {}
+
+#[derive(Template)]
+#[template(path = "dashboard_props.html")]
+pub struct DashboardBody {}

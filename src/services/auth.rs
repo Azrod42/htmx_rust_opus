@@ -6,10 +6,9 @@ use axum::{
 };
 use jsonwebtoken::{encode, EncodingKey, Header};
 use mongodb::{bson::doc, Client, Collection};
-use serde_json::json;
 
 use crate::{
-    pages::templates::Dashboard,
+    pages::templates::DashboardBody,
     structs::{auth::LoginPayload, entity::user::User, jwt_token::JwtToken},
 };
 use axum_extra::extract::cookie::{Cookie, SameSite};
@@ -69,7 +68,7 @@ pub async fn user_login(
         .same_site(SameSite::Lax)
         .http_only(true);
 
-    let mut response = Response::new(Dashboard {}.to_string());
+    let mut response = Response::new(DashboardBody {}.to_string());
     response
         .headers_mut()
         .insert(header::SET_COOKIE, cookie.to_string().parse().unwrap());

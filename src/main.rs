@@ -11,14 +11,12 @@ use axum::{
     routing::{get, post},
     Router,
 };
-use mongodb::{options::ClientOptions, Client};
 use pages::templates::Index;
 use tower_http::services::ServeFile;
 
 use crate::{
-    pages::dashboard::dashboard,
-    services::{auth::user_login, jwt_auth::auth},
-    structs::database::DatabaseConfig,
+    pages::{dashboard::dashboard, dashboard_props::dashboard_props},
+    services::{auth::user_login, database, jwt_auth::auth},
 };
 
 async fn index() -> Index {
@@ -33,22 +31,18 @@ pub async fn handler_404() -> impl IntoResponse {
 async fn main() {
     env::set_var("MONGO_MAX_POOL_SIZE", "4");
 
-    let database_config = DatabaseConfig::new();
-    let mut client_options = ClientOptions::parse(database_config.uri).await.unwrap();
-    client_options.connect_timeout = database_config.connection_timeout;
-    client_options.max_pool_size = database_config.max_pool_size;
-    client_options.min_pool_size = database_config.min_pool_size;
-    client_options.compressors = database_config.compressors;
-    let client = Client::with_options(client_options).unwrap();
+    let client = database::init_database().await;
 
     let app = Router::new()
         .route("/", get(index))
+        .route("/dashboard", get(dashboard))
         .route(
-            "/dashboard",
-            get(dashboard).route_layer(middleware::from_fn_with_state(client.clone(), auth)),
+            "/dashboard-props",
+            get(dashboard_props).route_layer(middleware::from_fn_with_state(client.clone(), auth)),
         )
         .route("/login", post(user_login))
-        .route_service("/css/global.css", ServeFile::new("statics/global.css"));
+        .route_service("/css/global.css", ServeFile::new("statics/global.css"))
+        .route_service("/css/login.css", ServeFile::new("statics/login.css"));
 
     let app = app.fallback(handler_404).with_state(client);
 

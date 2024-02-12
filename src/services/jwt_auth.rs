@@ -45,7 +45,7 @@ pub async fn auth(
 
     let token = token.unwrap_or("NA".to_string());
     if token == "NA" {
-        return Err((StatusCode::ACCEPTED, Login {}));
+        return Err((StatusCode::OK, Login {}));
     }
 
     let jwt_secret = std::env::var("JWT_TOKEN").expect("JWT_TOKEN is unset");
@@ -54,7 +54,7 @@ pub async fn auth(
         &DecodingKey::from_secret(jwt_secret.as_ref()),
         &Validation::default(),
     )
-    .map_err(|_| (StatusCode::ACCEPTED, Login {}))?
+    .map_err(|_| (StatusCode::OK, Login {}))?
     .claims;
 
     let query = doc! {"email": &claims.sub};
@@ -64,10 +64,10 @@ pub async fn auth(
     match &user {
         Ok(expr) => {
             if !expr.is_some() {
-                return Err((StatusCode::ACCEPTED, Login {}));
+                return Err((StatusCode::OK, Login {}));
             }
         }
-        Err(_) => return Err((StatusCode::ACCEPTED, Login {})),
+        Err(_) => return Err((StatusCode::OK, Login {})),
     }
 
     req.extensions_mut().insert(user);

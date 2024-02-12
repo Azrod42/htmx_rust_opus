@@ -42,7 +42,19 @@ async fn main() {
         )
         .route("/login", post(user_login))
         .route_service("/css/global.css", ServeFile::new("statics/global.css"))
-        .route_service("/css/login.css", ServeFile::new("statics/login.css"));
+        .route_service(
+            "/css/components/auth/login.css",
+            ServeFile::new("statics/components/auth/login.css"),
+        )
+        .route_service(
+            "/css/textfield.css",
+            ServeFile::new("statics/components/inputs/textfield.css"),
+        )
+        .route_service(
+            "/css/button.css",
+            ServeFile::new("statics/components/inputs/button.css"),
+        )
+        .route_service("/favicon.ico", ServeFile::new("statics/images/favicon.ico"));
 
     let app = app.fallback(handler_404).with_state(client);
 

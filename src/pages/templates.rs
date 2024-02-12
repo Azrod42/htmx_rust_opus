@@ -12,7 +12,7 @@ use askama::Template;
 pub struct Index {}
 
 #[derive(Template)]
-#[template(path = "login.html")]
+#[template(path = "components/auth/login.html")]
 pub struct Login {}
 
 #[derive(Template)]

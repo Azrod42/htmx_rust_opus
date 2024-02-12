@@ -1,0 +1,67 @@
+.textarea-container {
+  height: 40px;
+  padding-top: 15px;
+}
+
+.textarea-group {
+  position: relative;
+}
+
+.textarea-input {
+  font-size: 14px;
+  padding: 10px 10px 10px 5px;
+  display: block;
+  width: 200px;
+  border: none;
+  border-bottom: 1px solid var(--main-border-color);
+  background: transparent;
+  color: var(--main-text-color);
+}
+
+.textarea-input:focus {
+  outline: none;
+}
+
+.textarea-label {
+  color: var(--main-text-color);
+  font-size: 18px;
+  font-weight: normal;
+  position: absolute;
+  pointer-events: none;
+  left: 5px;
+  top: 10px;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+
+.textarea-input:focus ~ .textarea-label, .textarea-input:valid ~ .textarea-label {
+ top: -13px;
+ font-size: 13px;
+ color: var(--primary);
+}
+
+.textarea-bar {
+  position: relative;
+  display: block;
+  width: 100%
+}
+
+.textarea-bar:before, .textarea-bar:after {
+ content: '';
+ height: 2px;
+ width: 0;
+ bottom: 1px;
+ left: 0;
+ position: absolute;
+ background: var(--primary);
+ transition: 0.2s ease all;
+ -moz-transition: 0.2s ease all;
+ -webkit-transition: 0.2s ease all;
+}
+
+.textarea-bar:focus ~ .textarea-bar:before, .textarea-input:focus ~ .textarea-bar:after {
+ width: 100%;
+}
+
+

@@ -1,6 +1,4 @@
-JWT_TOKEN=JWT_TOKEN=thisisatoken
-
-ENV=${JWT_TOKEN}
+ENV=
 
 all: run
 

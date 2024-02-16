@@ -1,18 +1,18 @@
 {%- import "components/inputs/textfield.html" as textfield -%}
 {%- import "components/inputs/button.html" as button -%}
 
-<div class="login_form-container">
-  <form hx-post="/login" hx-ext='json-enc' hx-target="#body" class="login_form">
-    <h1 class="login_title">Login</h1>
+<div class="auth_form-container">
+  <form hx-post="/login" hx-ext='json-enc' hx-target="#body" class="auth_form">
+    <h1>Login</h1>
     <hr/>
-    <div class="login_form-group">
+    <div class="auth_form-group">
       {% call textfield::classic("text", name="email", label="Email address") %}
       {% call textfield::classic("password", name="password", label="Password") %}
     </div>
     {% call button::outlined("submit", label="Login") %}
-    <span class="login_register">
+    <span class="auth_register">
       Not yet registered?
-      <span class="login_register primary" hx-get="/register" hx-target="#body">
+      <span class="auth_register primary" hx-get="/register" hx-target="#body">
         Register
       </span>
     </span>

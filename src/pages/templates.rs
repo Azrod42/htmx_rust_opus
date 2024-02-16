@@ -16,6 +16,10 @@ pub struct Index {}
 pub struct Login {}
 
 #[derive(Template)]
+#[template(path = "components/auth/register.html")]
+pub struct Register {}
+
+#[derive(Template)]
 #[template(path = "dashboard.html")]
 pub struct Dashboard {}
 

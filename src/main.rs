@@ -5,10 +5,20 @@ mod structs;
 use std::env;
 
 use askama_axum::IntoResponse;
-use axum::http::StatusCode;
+use axum::{
+    http::StatusCode,
+    middleware,
+    routing::{get, post},
+    Router,
+};
 use pages::templates::Index;
+use sqlx::postgres::PgPoolOptions;
+use tower_http::cors::CorsLayer;
 
-use crate::services::{database, routes::init_routes};
+use crate::{
+    pages::dashboard_props::dashboard_props,
+    services::{auth::user_login, jwt_auth::auth, routes::init_routes},
+};
 
 async fn index() -> Index {
     Index {}
@@ -20,10 +30,22 @@ pub async fn handler_404() -> impl IntoResponse {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    env::set_var("MONGO_MAX_POOL_SIZE", "4");
+    let pool = PgPoolOptions::new()
+        .max_connections(5)
+        .connect(&env::var("DATABASE_URL").unwrap())
+        .await
+        .expect("can't connect to database");
 
-    let client = database::init_database().await;
-    let app = init_routes(client);
+    let app = Router::new()
+        .route("/login", post(user_login))
+        .route("/register", post(user_login))
+        .route(
+            "/dashboard-props",
+            get(dashboard_props).route_layer(middleware::from_fn_with_state(pool.clone(), auth)),
+        )
+        .with_state(pool)
+        .layer(CorsLayer::permissive());
+    let app = init_routes(app);
 
     let listener = tokio::net::TcpListener::bind("127.0.0.1:42069")
         .await

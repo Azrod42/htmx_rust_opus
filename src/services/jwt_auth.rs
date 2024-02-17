@@ -1,18 +1,18 @@
 use askama_axum::IntoResponse;
 use axum::{
     body::Body,
-    extract::{Request, State},
+    extract::Request,
     http::{header, StatusCode},
     middleware::Next,
 };
 use axum_extra::extract::cookie::CookieJar;
 use jsonwebtoken::{decode, DecodingKey, Validation};
-use mongodb::{bson::doc, Client, Collection};
 use serde::Serialize;
+use sqlx::Row;
 
 use crate::{
     pages::templates::Login,
-    structs::{entity::user::User, jwt_token::JwtToken},
+    structs::{database::DatabaseConnection, entity::user::User, jwt_token::JwtToken},
 };
 
 #[derive(Debug, Serialize)]
@@ -23,7 +23,7 @@ pub struct ErrorResponse {
 
 pub async fn auth(
     cookie_jar: CookieJar,
-    State(client): State<Client>,
+    DatabaseConnection(mut conn): DatabaseConnection,
     mut req: Request<Body>,
     next: Next,
 ) -> Result<impl IntoResponse, (StatusCode, Login)> {
@@ -57,18 +57,22 @@ pub async fn auth(
     .map_err(|_| (StatusCode::OK, Login {}))?
     .claims;
 
-    let query = doc! {"email": &claims.sub};
-    let coll: Collection<User> = client.database("test").collection::<User>("users");
-    let user = coll.find_one(query, None).await;
+    let user = sqlx::query("SELECT * FROM users WHERE email = $1")
+        .bind(&claims.sub)
+        .map(|row: sqlx::postgres::PgRow| User {
+            id: row.get(0),
+            username: row.get(1),
+            email: row.get(2),
+            password: row.get(3),
+        })
+        .fetch_one(&mut *conn)
+        .await;
 
     match &user {
-        Ok(expr) => {
-            if !expr.is_some() {
-                return Err((StatusCode::OK, Login {}));
-            }
-        }
-        Err(_) => return Err((StatusCode::OK, Login {})),
+        Ok(_) => {}
+        Err(_) => return Err((StatusCode::UNAUTHORIZED, Login {})),
     }
+    let user = user.unwrap();
 
     req.extensions_mut().insert(user);
     Ok(next.run(req).await)

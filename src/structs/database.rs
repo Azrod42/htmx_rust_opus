@@ -1,38 +1,32 @@
-use mongodb::options::Compressor;
-use std::time::Duration;
+use axum::{
+    async_trait,
+    extract::{FromRef, FromRequestParts},
+    http::{request::Parts, StatusCode},
+};
+use sqlx::PgPool;
 
-pub struct DatabaseConfig {
-    pub uri: String,
-    pub connection_timeout: Option<Duration>,
-    pub min_pool_size: Option<u32>,
-    pub max_pool_size: Option<u32>,
-    pub compressors: Option<Vec<Compressor>>,
+pub struct DatabaseConnection(pub sqlx::pool::PoolConnection<sqlx::Postgres>);
+
+#[async_trait]
+impl<S> FromRequestParts<S> for DatabaseConnection
+where
+    PgPool: FromRef<S>,
+    S: Send + Sync,
+{
+    type Rejection = (StatusCode, String);
+
+    async fn from_request_parts(_parts: &mut Parts, state: &S) -> Result<Self, Self::Rejection> {
+        let pool = PgPool::from_ref(state);
+
+        let conn = pool.acquire().await.map_err(internal_error)?;
+
+        Ok(Self(conn))
+    }
 }
 
-impl DatabaseConfig {
-    pub fn new() -> Self {
-        let mongo_uri: String = "mongodb+srv://tomsorabella:47BpnKFcypXxbltS@opusdb.zctglq9.mongodb.net/?retryWrites=true&w=majority".to_string();
-
-        let mongo_connection_timeout: u64 = 10000;
-
-        let mongo_min_pool_size: u32 = 2;
-
-        let mongo_max_pool_size: u32 = 10;
-
-        Self {
-            uri: mongo_uri,
-            connection_timeout: Some(Duration::from_secs(mongo_connection_timeout)),
-            min_pool_size: Some(mongo_min_pool_size),
-            max_pool_size: Some(mongo_max_pool_size),
-            compressors: Some(vec![
-                Compressor::Snappy,
-                Compressor::Zlib {
-                    level: Default::default(),
-                },
-                Compressor::Zstd {
-                    level: Default::default(),
-                },
-            ]),
-        }
-    }
+pub fn internal_error<E>(err: E) -> (StatusCode, String)
+where
+    E: std::error::Error,
+{
+    (StatusCode::INTERNAL_SERVER_ERROR, err.to_string())
 }

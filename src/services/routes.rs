@@ -32,12 +32,12 @@ fn services_routes(app: axum::routing::Router) -> Router {
             ServeFile::new("statics/components/auth/auth.css"),
         )
         .route_service(
-            "/css/textfield.css",
-            ServeFile::new("statics/components/inputs/textfield.css"),
+            "/css/inputs.css",
+            ServeFile::new("statics/components/inputs.css"),
         )
         .route_service(
-            "/css/button.css",
-            ServeFile::new("statics/components/inputs/button.css"),
+            "/css/feedback.css",
+            ServeFile::new("statics/components/feedback.css"),
         )
         .route_service("/favicon.ico", ServeFile::new("statics/images/favicon.ico"))
 }

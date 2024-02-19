@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@200;400;700&display=swap');
-@import url("textfield.css");
-@import url("button.css");
+@import url("inputs.css");
+@import url("feedback.css");
 
 :root {
   --main-bg-color: #121212;
@@ -36,36 +36,6 @@ h1, h2, h3, h4, h5 {
   color: red;
 }
 
-
-.snackbar {
-  position: absolute;
-  bottom: -100;
-  left: 50%;
-  background-color: var(--main-bg-color);
-  border: 1px solid var(--main-border-color);
-  padding: 12px 20px;
-  border-radius: 10px;
-  animation-duration: 4s;
-  animation-name: slideinout;
-  animation-iteration-count: 1;
-  font-weight: 700;
-}
-
-
-@keyframes slideinout {
-  0% {
-    bottom: 110%;
-  }
-  5% {
-    bottom: 90%;
-  }
-  95%{
-    bottom: 90%;
-  }
-  100% {
-    bottom: 110%;
-  }
-}
 
 .error {
   background-color: var(--error);

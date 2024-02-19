@@ -26,7 +26,8 @@ use axum_extra::extract::cookie::{Cookie, SameSite};
 pub async fn user_login(
     DatabaseConnection(mut conn): DatabaseConnection,
     Json(payload): Json<LoginPayload>,
-) -> Result<impl IntoResponse, (StatusCode, String)> {
+) -> Result<impl IntoResponse, (StatusCode, Snackbar)> {
+    let error_status = String::from("Error: ");
     let user_result = sqlx::query("SELECT * FROM users WHERE email = $1")
         .bind(&payload.email)
         .map(|row: sqlx::postgres::PgRow| User {
@@ -40,7 +41,13 @@ pub async fn user_login(
 
     let user: User = match &user_result {
         Ok(user) => user.clone(),
-        Err(_) => return Err((StatusCode::UNAUTHORIZED, "Invalid log".to_string())),
+        Err(_) => {
+            return Err(return_snackbar(
+                error_status,
+                String::from("Invalid credential"),
+                Some(SnackbardColor::Error.get_status()),
+            ))
+        }
     };
 
     let uno = bcrypt::verify(payload.password, &user.password);
@@ -50,10 +57,20 @@ pub async fn user_login(
             if value {
                 println!("LOG: user-login: {}", user.email)
             } else {
-                return Err((StatusCode::UNAUTHORIZED, "Invalid log".to_string()));
+                return Err(return_snackbar(
+                    error_status,
+                    String::from("Invalid credential"),
+                    Some(SnackbardColor::Error.get_status()),
+                ));
             }
         }
-        Err(_) => return Err((StatusCode::UNAUTHORIZED, "Invalid log".to_string())),
+        Err(_) => {
+            return Err(return_snackbar(
+                error_status,
+                String::from("Invalid credential"),
+                Some(SnackbardColor::Error.get_status()),
+            ))
+        }
     }
 
     let jwt_secret = std::env::var("JWT_TOKEN").expect("JWT_TOKEN is unset");

@@ -1,8 +1,8 @@
 {%- import "components/inputs/textfield.html" as textfield -%}
 {%- import "components/inputs/button.html" as button -%}
 
-<div class="auth_form-container">
-  <form hx-post="/login" hx-ext='json-enc' hx-target="#body" class="auth_form">
+<div class="auth_form-container" id="dashboard" hx-swap-oob="true">
+  <form hx-post="/login" hx-ext='json-enc' hx-target="#body" hx-swap="afterend" class="auth_form">
     <h1>Login</h1>
     <hr/>
     <div class="auth_form-group">

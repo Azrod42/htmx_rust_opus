@@ -1,10 +1,3 @@
-// #[derive(Debug, Template)]
-// #[template(path = "timer.html")]
-// pub struct Timer {
-//     pub oob: bool,
-//     pub msg: String,
-// }
-
 use askama::Template;
 
 #[derive(Template)]
@@ -26,3 +19,11 @@ pub struct Dashboard {}
 #[derive(Template)]
 #[template(path = "dashboard_props.html")]
 pub struct DashboardBody {}
+
+#[derive(Template)]
+#[template(path = "components/snackbar.html")]
+pub struct Snackbar {
+    pub status: String,
+    pub message: String,
+    pub color: String,
+}

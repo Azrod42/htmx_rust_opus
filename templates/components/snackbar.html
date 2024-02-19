@@ -1,1 +1,3 @@
-<div hx-target="#snackbar">test de tom</div>
+<div id="snackbar" hx-swap-oob="true">
+  <div hx-get="/clear-element" hx-trigger="load delay:4s" hx-swap="outerHTML" class="snackbar {{color}}">{{status}} {{message}}</div>
+</div>

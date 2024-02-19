@@ -3,16 +3,20 @@ use axum::{
     http::{header, Response, StatusCode},
     Json,
 };
-use bcrypt::{bcrypt, hash};
+use bcrypt::hash;
 use jsonwebtoken::{encode, EncodingKey, Header};
 use sqlx::{query, Row};
 
 use crate::{
-    pages::templates::{DashboardBody, Login},
+    pages::{
+        components::return_snackbar,
+        templates::{DashboardBody, Login, Snackbar},
+    },
     structs::{
         auth::{LoginPayload, RegisterPayload},
         database::DatabaseConnection,
         entity::user::{User, UserId},
+        enums::SnackbardColor,
         jwt_token::JwtToken,
         regex::RegexPattern,
     },
@@ -85,7 +89,8 @@ pub async fn user_login(
 pub async fn user_register(
     DatabaseConnection(mut conn): DatabaseConnection,
     Json(payload): Json<RegisterPayload>,
-) -> Result<impl IntoResponse, (StatusCode, String)> {
+) -> Result<impl IntoResponse, (StatusCode, Snackbar)> {
+    let error_status = String::from("Error: ");
     let user_result = sqlx::query("SELECT * FROM users WHERE email = $1")
         .bind(&payload.email)
         .map(|row: sqlx::postgres::PgRow| UserId { id: row.get(0) })
@@ -93,30 +98,65 @@ pub async fn user_register(
         .await;
 
     match &user_result {
-        Ok(_) => return Err((StatusCode::UNAUTHORIZED, "User already exist".to_string())),
+        Ok(_) => {
+            return Err(return_snackbar(
+                error_status,
+                String::from("User already exist"),
+                Some(SnackbardColor::Error.get_status()),
+            ))
+        }
         Err(_) => {}
     };
 
     if !RegexPattern::Email.is_match(&payload.email) {
-        return Err((StatusCode::UNAUTHORIZED, "Invalid email".to_string()));
+        return Err(return_snackbar(
+            error_status,
+            String::from("Invalid email"),
+            Some(SnackbardColor::Error.get_status()),
+        ));
     }
 
     if payload.password != payload.password_confirm {
-        return Err((
-            StatusCode::UNAUTHORIZED,
-            "Password didn't match".to_string(),
+        return Err(return_snackbar(
+            error_status,
+            String::from("Password didn't match"),
+            Some(SnackbardColor::Error.get_status()),
         ));
     }
 
     match &payload.password.len() {
-        0..=5 => return Err((StatusCode::UNAUTHORIZED, "Password to small".to_string())),
-        40.. => return Err((StatusCode::UNAUTHORIZED, "Password to big".to_string())),
+        0..=5 => {
+            return Err(return_snackbar(
+                error_status,
+                String::from("Password is to small"),
+                Some(SnackbardColor::Error.get_status()),
+            ))
+        }
+        40.. => {
+            return Err(return_snackbar(
+                error_status,
+                String::from("Password is to big"),
+                Some(SnackbardColor::Error.get_status()),
+            ))
+        }
         _ => {}
     }
 
     match &payload.username.len() {
-        0..=3 => return Err((StatusCode::UNAUTHORIZED, "Username to small".to_string())),
-        20.. => return Err((StatusCode::UNAUTHORIZED, "Username to big".to_string())),
+        0..=3 => {
+            return Err(return_snackbar(
+                error_status,
+                String::from("Username is to small"),
+                Some(SnackbardColor::Error.get_status()),
+            ))
+        }
+        20.. => {
+            return Err(return_snackbar(
+                error_status,
+                String::from("Username is to big"),
+                Some(SnackbardColor::Error.get_status()),
+            ))
+        }
         _ => {}
     }
 
@@ -133,6 +173,10 @@ pub async fn user_register(
 
     match &result {
         Ok(_) => Ok(Login {}),
-        Err(_) => Err((StatusCode::UNAUTHORIZED, "Invalid log".to_string())),
+        Err(_) => Err(return_snackbar(
+            error_status,
+            String::from("Unexpected error append"),
+            Some(SnackbardColor::Error.get_status()),
+        )),
     }
 }

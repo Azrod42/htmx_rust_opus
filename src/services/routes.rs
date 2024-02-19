@@ -22,6 +22,7 @@ use super::{
 fn global_routes(app: axum::routing::Router) -> Router {
     app.route("/", get(index))
         .route("/dashboard", get(dashboard))
+        .route("/clear-element", get(""))
 }
 
 fn services_routes(app: axum::routing::Router) -> Router {
@@ -49,6 +50,7 @@ fn auth_routes(app: axum::routing::Router) -> axum::routing::Router {
 pub fn init_routes(pool: sqlx::PgPool) -> axum::routing::Router {
     let app = Router::new()
         .route("/login", post(user_login))
+        // .route("/test", get(snackbar))
         .route("/register", post(user_register))
         .route(
             "/dashboard-props",

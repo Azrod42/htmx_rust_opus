@@ -3,7 +3,7 @@ use axum::{
     extract::{FromRef, FromRequestParts},
     http::{request::Parts, StatusCode},
 };
-use sqlx::PgPool;
+use sqlx::{postgres::PgPoolOptions, PgPool};
 
 pub struct DatabaseConnection(pub sqlx::pool::PoolConnection<sqlx::Postgres>);
 
@@ -22,6 +22,14 @@ where
 
         Ok(Self(conn))
     }
+}
+
+pub async fn init_database() -> sqlx::PgPool {
+    PgPoolOptions::new()
+        .max_connections(5)
+        .connect(&std::env::var("DATABASE_URL").unwrap())
+        .await
+        .expect("can't connect to database")
 }
 
 pub fn internal_error<E>(err: E) -> (StatusCode, String)

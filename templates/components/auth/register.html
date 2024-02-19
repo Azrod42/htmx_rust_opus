@@ -6,10 +6,10 @@
     <h1>Register</h1>
     <hr/>
     <div class="auth_form-group">
-      {% call textfield::classic("text", name="email", label="Email address") %}
+      {% call textfield::classic("text", name="email", label="Email address")  %}
       {% call textfield::classic("text", name="username", label="username") %}
       {% call textfield::classic("password", name="password", label="Password") %}
-      {% call textfield::classic("password", name="password_confim", label="Confirm password") %}
+      {% call textfield::classic("password", name="password_confirm", label="Confirm password") %}
     </div>
     {% call button::outlined("submit", label="Register") %}
     <span class="auth_register">

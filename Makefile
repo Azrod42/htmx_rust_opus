@@ -3,6 +3,7 @@ ENV=
 all: run
 
 run:
+	./env.sh
 	${ENV} cargo watch -x run
 
 c: check

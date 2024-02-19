@@ -3,13 +3,18 @@ use axum::{
     http::{header, Response, StatusCode},
     Json,
 };
+use bcrypt::{bcrypt, hash};
 use jsonwebtoken::{encode, EncodingKey, Header};
-use sqlx::Row;
+use sqlx::{query, Row};
 
 use crate::{
-    pages::templates::DashboardBody,
+    pages::templates::{DashboardBody, Login},
     structs::{
-        auth::LoginPayload, database::DatabaseConnection, entity::user::User, jwt_token::JwtToken,
+        auth::{LoginPayload, RegisterPayload},
+        database::DatabaseConnection,
+        entity::user::{User, UserId},
+        jwt_token::JwtToken,
+        regex::RegexPattern,
     },
 };
 use axum_extra::extract::cookie::{Cookie, SameSite};
@@ -75,4 +80,59 @@ pub async fn user_login(
         .headers_mut()
         .insert(header::SET_COOKIE, cookie.to_string().parse().unwrap());
     Ok(response)
+}
+
+pub async fn user_register(
+    DatabaseConnection(mut conn): DatabaseConnection,
+    Json(payload): Json<RegisterPayload>,
+) -> Result<impl IntoResponse, (StatusCode, String)> {
+    let user_result = sqlx::query("SELECT * FROM users WHERE email = $1")
+        .bind(&payload.email)
+        .map(|row: sqlx::postgres::PgRow| UserId { id: row.get(0) })
+        .fetch_one(&mut *conn)
+        .await;
+
+    match &user_result {
+        Ok(_) => return Err((StatusCode::UNAUTHORIZED, "User already exist".to_string())),
+        Err(_) => {}
+    };
+
+    if !RegexPattern::Email.is_match(&payload.email) {
+        return Err((StatusCode::UNAUTHORIZED, "Invalid email".to_string()));
+    }
+
+    if payload.password != payload.password_confirm {
+        return Err((
+            StatusCode::UNAUTHORIZED,
+            "Password didn't match".to_string(),
+        ));
+    }
+
+    match &payload.password.len() {
+        0..=5 => return Err((StatusCode::UNAUTHORIZED, "Password to small".to_string())),
+        40.. => return Err((StatusCode::UNAUTHORIZED, "Password to big".to_string())),
+        _ => {}
+    }
+
+    match &payload.username.len() {
+        0..=3 => return Err((StatusCode::UNAUTHORIZED, "Username to small".to_string())),
+        20.. => return Err((StatusCode::UNAUTHORIZED, "Username to big".to_string())),
+        _ => {}
+    }
+
+    let hashed_password = hash(&payload.password, 11).unwrap();
+
+    let result = query!(
+        r#"INSERT INTO users (username, password, email) VALUES ($1, $2, $3) RETURNING id, username"#,
+        payload.username,
+        hashed_password,
+        payload.email
+    )
+    .fetch_one(&mut *conn)
+    .await;
+
+    match &result {
+        Ok(_) => Ok(Login {}),
+        Err(_) => Err((StatusCode::UNAUTHORIZED, "Invalid log".to_string())),
+    }
 }

@@ -16,7 +16,7 @@ use crate::{
 
 use super::{
     auth::{user_login, user_register},
-    jwt_auth::auth,
+    jwt_auth,
 };
 
 fn global_routes(app: axum::routing::Router) -> Router {
@@ -25,8 +25,13 @@ fn global_routes(app: axum::routing::Router) -> Router {
         .route("/clear-element", get(""))
 }
 
-fn services_routes(app: axum::routing::Router) -> Router {
+fn services_routes(app: axum::routing::Router, _pool: sqlx::PgPool) -> Router {
     app.route_service("/css/global.css", ServeFile::new("statics/global.css"))
+        .route_service("/css/index.css", ServeFile::new("statics/index.css"))
+        .route_service(
+            "/css/dashboard.css",
+            ServeFile::new("statics/dashboard.css"),
+        )
         .route_service(
             "/css/components/auth/auth.css",
             ServeFile::new("statics/components/auth/auth.css"),
@@ -50,16 +55,18 @@ fn auth_routes(app: axum::routing::Router) -> axum::routing::Router {
 pub fn init_routes(pool: sqlx::PgPool) -> axum::routing::Router {
     let app = Router::new()
         .route("/login", post(user_login))
-        // .route("/test", get(snackbar))
         .route("/register", post(user_register))
         .route(
             "/dashboard-props",
-            get(dashboard_props).route_layer(middleware::from_fn_with_state(pool.clone(), auth)),
+            get(dashboard_props).route_layer(middleware::from_fn_with_state(
+                pool.clone(),
+                jwt_auth::check_user_auth,
+            )),
         )
-        .with_state(pool)
+        .with_state(pool.clone())
         .layer(CorsLayer::permissive());
 
     let app = global_routes(app);
-    let app = services_routes(app);
+    let app = services_routes(app, pool);
     auth_routes(app)
 }

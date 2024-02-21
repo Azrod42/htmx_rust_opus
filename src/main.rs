@@ -21,6 +21,7 @@ pub async fn handler_404() -> impl IntoResponse {
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     env::var("JWT_TOKEN").expect("JWT_TOKEN not set");
+    env::var("DATABASE_URL").expect("DATABASE_URL not set");
 
     let pool_database = init_database().await;
     let app = init_routes(pool_database);

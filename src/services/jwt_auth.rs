@@ -21,7 +21,7 @@ pub struct ErrorResponse {
     pub message: String,
 }
 
-pub async fn auth(
+pub async fn check_user_auth(
     cookie_jar: CookieJar,
     DatabaseConnection(mut conn): DatabaseConnection,
     mut req: Request<Body>,

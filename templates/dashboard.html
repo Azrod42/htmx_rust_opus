@@ -10,7 +10,8 @@
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
   </head>
-  <body id="body" hx-get="/dashboard-props" hx-trigger="load" hx-swap="afterend">
+  <body>
+    <div id="body" hx-get="/dashboard-props" hx-trigger="load" hx-swap="afterend">
     <div id="dashboard"></div>
     <div  id="snackbar"></div>
   </body>

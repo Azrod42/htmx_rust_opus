@@ -1,3 +1,7 @@
+{% macro contained(button_type, label) %}
+<button class="button-contained" type="{{button_type}}">{{label}}</button>
+{% endmacro %}
+
 {% macro outlined(button_type, label) %}
-<button class="button-outline" type="{{button_type}}">{{label}}</button>
+<button class="button-outlined" type="{{button_type}}">{{label}}</button>
 {% endmacro %}

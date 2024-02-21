@@ -11,7 +11,7 @@
       {% call textfield::classic("password", name="password", label="Password") %}
       {% call textfield::classic("password", name="password_confirm", label="Confirm password") %}
     </div>
-    {% call button::outlined("submit", label="Register") %}
+    {% call button::contained("submit", label="Register") %}
     <span class="auth_register">
       Already have an account?
       <span class="auth_register primary" hx-get="/login" hx-target="#body">

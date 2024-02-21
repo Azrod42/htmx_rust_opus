@@ -6,7 +6,11 @@
   align-items: center;
 }
 
-
+.index_dashboard_button_wraper {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
 
 
 

@@ -7,11 +7,12 @@
     <link href="css/global.css" rel="stylesheet" />
     <link id="dashboard-css" href=""><link/>
     <link id="auth-css" href=""><link/>
+    <link id="index-css" href=""><link/>
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
   </head>
-  <body>
-    <div id="body" hx-get="/dashboard-props" hx-trigger="load" hx-swap="afterend">
+  <body id="body">
+    <div hx-get="/dashboard-props" hx-trigger="load" hx-swap="afterend">
     <div id="dashboard"></div>
     <div  id="snackbar"></div>
   </body>

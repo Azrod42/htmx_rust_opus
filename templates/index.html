@@ -8,7 +8,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="css/global.css" rel="stylesheet" />
-    <link href="css/index.css" rel="stylesheet" />
+    <link href="css/index.css" rel="stylesheet" id="index-css" />
     <link href="css/inputs.css" rel="stylesheet" />
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
@@ -24,6 +24,7 @@
         hx-target="#body"
       >
         {% call button::outlined("button", label="Dashboard") %}
+        <link href="css/index.css" rel="stylesheet" hx-swap-oob="true" id="index-css"  />
       </div>
     </div>
   </body>

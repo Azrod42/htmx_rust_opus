@@ -1,7 +1,6 @@
-{% macro contained(button_type, label) %}
-<button class="button-contained" type="{{button_type}}">{{label}}</button>
-{% endmacro %}
 
-{% macro outlined(button_type, label) %}
-<button class="button-outlined" type="{{button_type}}">{{label}}</button>
+<!-- variant = classic | outlined | contained -->
+
+{% macro default(button_type, variant, label, custom_style) %}
+<button class="button-{{variant}}" type="{{button_type}}" style="{{custom_style}}">{{label}}</button>
 {% endmacro %}

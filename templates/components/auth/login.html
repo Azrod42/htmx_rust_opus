@@ -9,7 +9,7 @@
       {% call textfield::classic("text", name="email", label="Email address") %}
       {% call textfield::classic("password", name="password", label="Password") %}
     </div>
-    {% call button::contained("submit", label="Login") %}
+    {% call button::default("submit", variant="contained", label="Login", custom_style="") %}
     <span class="auth_register">
       Not yet registered?
       <span class="auth_register primary" hx-get="/register" hx-target="#body">

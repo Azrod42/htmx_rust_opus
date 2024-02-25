@@ -4,3 +4,9 @@ CREATE TABLE users (
     email VARCHAR(255) UNIQUE,
     password VARCHAR(255)
 );
+
+CREATE TABLE visit (
+ id SERIAL primary key,
+ date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
+ALTER TABLE visite ADD COLUMN user_agent VARCHAR(255);

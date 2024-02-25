@@ -9,6 +9,7 @@ use crate::{
     index,
     pages::{
         auth::{user_login_page, user_register_page},
+        components::index_visit,
         dashboard::dashboard,
         dashboard_props::dashboard_props,
     },
@@ -44,6 +45,25 @@ fn services_routes(app: axum::routing::Router, _pool: sqlx::PgPool) -> Router {
             "/css/feedback.css",
             ServeFile::new("statics/components/feedback.css"),
         )
+        .route_service(
+            "/icons/github.svg",
+            ServeFile::new("statics/images/logos/github.svg"),
+        )
+        .route_service(
+            "/icons/in.svg",
+            ServeFile::new("statics/images/logos/in.svg"),
+        )
+        .route_service(
+            "/icons/ig.svg",
+            ServeFile::new("statics/images/logos/ig.svg"),
+        )
+        .route_service(
+            "/icons/stack.svg",
+            ServeFile::new("statics/images/logos/stack.svg"),
+        )
+        .route_service("/pp.png", ServeFile::new("statics/images/pp.png"))
+        .route_service("/setup.webp", ServeFile::new("statics/images/setup.webp"))
+        .route_service("/icons/x.svg", ServeFile::new("statics/images/logos/x.svg"))
         .route_service("/favicon.ico", ServeFile::new("statics/images/favicon.ico"))
 }
 
@@ -56,6 +76,7 @@ pub fn init_routes(pool: sqlx::PgPool) -> axum::routing::Router {
     let app = Router::new()
         .route("/login", post(user_login))
         .route("/register", post(user_register))
+        .route("/visit", get(index_visit))
         .route(
             "/dashboard-props",
             get(dashboard_props).route_layer(middleware::from_fn_with_state(

@@ -1,14 +1,38 @@
+{%- import "components/index/cards.html" as cards -%}
+
 {% macro grid() %}
   <div class="index_grid">
-    <div class="index_grid-item i_grid-1">test 1</div>
-    <div class="index_grid-item i_grid-2">test 2</div>
-    <div class="index_grid-item i_grid-3">test 3</div>
-    <div class="index_grid-item i_grid-4">test 4</div>
-    <div class="index_grid-item i_grid-5">test 5</div>
-    <div class="index_grid-item i_grid-6">test 6</div>
-    <div class="index_grid-item i_grid-7">test 7</div>
-    <div class="index_grid-item i_grid-8">test 8</div>
-    <div class="index_grid-item i_grid-9">test 9</div>
-    <div class="index_grid-item i_grid-10">test 10</div>
+    <div class="index_grid-item i_grid-1">
+        {% call cards::profile() %}
+    </div>
+    <div class="index_grid-item i_grid-2">
+        {% call cards::tech_stack() %}
+    </div>
+    <div class="index_grid-item i_grid-3">
+        {% call cards::social() %}
+    </div>
+    <div class="index_grid-item i_grid-4">
+        {% call cards::profile_picture() %}
+    </div>
+    <div class="index_grid-item i_grid-5">
+        {% call cards::about() %}
+    </div>
+    <div class="index_grid-item i_grid-6">
+        {% call cards::setup() %}
+    </div>
+    <div class="index_grid-item i_grid-7"
+      hx-get="/visit"
+      hx-trigger="load"
+      hx-swap="innerHTML">
+    </div>
+    <div class="index_grid-item i_grid-8">
+        {% call cards::contact() %}
+    </div>
+    <div class="index_grid-item i_grid-9">
+        {% call cards::website_stack() %}
+    </div>
+    <div class="index_grid-item i_grid-10">
+        {% call cards::map() %}
+    </div>
   </div>
 {% endmacro %}

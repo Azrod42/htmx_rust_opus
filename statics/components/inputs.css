@@ -9,14 +9,16 @@
  font-size: 16px;
  font-weight: 400;
  color: var(--dark-text-color);
+ background-color: transparent;
  border: none;
  border-radius: 5px;
  transition: all 400ms ease-in-out;
  cursor: pointer;
+ color: white;
 }
 
 .button-classic:hover {
-  box-shadow: inset 200px 0 var(--secondary);
+  color: var(--primary);
 }
 /*/* ================================================================== */
                               /* button contained */

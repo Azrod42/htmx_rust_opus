@@ -27,3 +27,9 @@ pub struct Snackbar {
     pub message: String,
     pub color: String,
 }
+
+#[derive(Template)]
+#[template(path = "components/index/visit.html")]
+pub struct IndexVisit {
+    pub number_visit: i32,
+}

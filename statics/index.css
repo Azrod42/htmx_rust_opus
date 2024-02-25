@@ -6,12 +6,217 @@
   align-items: center;
 }
 
+.index_card-logo{
+  filter: invert(0.9);
+  transition: 1s;
+}
+
+.index_card-pattern {
+    width: 100%;
+  height: 100%;
+  --s: 20px; 
+  --c1: var(--primary);
+  --c2: var(--main-bg-color);
+
+  --c: #0000 71%, var(--c1) 0 79%, #0000 0;
+  --_s: calc(var(--s) / 2) / calc(2 * var(--s)) calc(2 * var(--s));
+  background: linear-gradient(45deg, var(--c)) calc(var(--s) / -2) var(--_s),
+    linear-gradient(135deg, var(--c)) calc(var(--s) / 2) var(--_s),
+    radial-gradient(var(--c1) 35%, var(--c2) 37%) 0 0 / var(--s) var(--s);
+    transition-duration: 1s;
+  transition-duration: 800ms;
+}
+
+/* =========================================================== */
+                      /* card setup*/
+/* =========================================================== */
+
+.index_card-setup {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+.index_card-setup-picture {
+  width: 100%;
+  object-fit: fill;
+  border-radius: 10px;
+  filter: grayscale(1);
+  transition-duration: 0.8s;
+}
+.index_card-setup-picture:hover {
+  filter: grayscale(0);
+}
+
+/* =========================================================== */
+                      /* card visit*/
+/* =========================================================== */
+
+.index_card-visit-wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.index_card-visit-number{
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* =========================================================== */
+                      /* card constact*/
+/* =========================================================== */
+
+.index_card-contact-wrapper{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.index_card-contact{
+  width: 150px;
+  height: 34px;
+  margin: 20px 0;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================================================== */
+                      /* card profile picture*/
+/* =========================================================== */
+.index_card-profile-picture{
+  position: absolute;
+  padding: 0 10px;
+  width: calc(100% - 20px);
+  bottom: 1px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+
+/* =========================================================== */
+                      /* card stack*/
+/* =========================================================== */
+.index_card-wsstack-wrapper {
+  padding: 10px;
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.index_card-wsstack-text {
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 3px 0;
+  text-align: center;
+}
+/* =========================================================== */
+                      /* card about*/
+/* =========================================================== */
+.index_card-about-wrapper {
+  position: relative;
+  padding: 10px;
+  font-size: 0.8rem;
+}
+.index_card-about-title {
+  text-align: right;
+}
+
+.index_card-about-text {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+/* =========================================================== */
+                      /* card stack*/
+/* =========================================================== */
+
+.index_card-stack-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}
+
+.index_card-stack {
+  width: calc(100% - 40px);
+  padding: 0 20px;
+}
+.index_card-stack-title {
+  margin-top: 15px;
+  font-weight: 200
+}
+
+.index_card-stack-item-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 10px
+}
+
+.index_card-stack-item {
+  background-color: var(--light-bg-color);
+  padding: 5px 5px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 200;
+}
+
+/* =========================================================== */
+                      /* dashboard button */
+/* =========================================================== */
+
 .index_dashboard_button_wraper {
   position: absolute;
   top: 20px;
   right: 20px;
 }
+/* =========================================================== */
+                      /* card social*/
+/* =========================================================== */
 
+.index_card-social-wrapper{
+  width: 100%;
+  height: calc(100% - 40px);
+  display: grid;
+  grid-template-columns: repeat(2, 50%);
+  grid-template-rows: repeat(2, 50%);
+  align-items: center;
+  justify-items: center;
+  margin: 20px 0;
+}
+
+/* =========================================================== */
+                      /* card profile*/
+/* =========================================================== */
+
+.index_card-profile-wrapper{
+  padding: 10px;
+  font-size: 1rem;
+}
+
+.index_card-profile-name {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  text-align: right;
+
+}
+
+.index_card-profile-job {
+  font-size: 1.2rem;
+  margin: 0;
+  text-align: right;
+  font-weight: 200;
+}
 
 /* =========================================================== */
                       /* GRID css */
@@ -33,6 +238,7 @@
   border-radius: 10px;
   min-height: 200px;
   border: 1px solid var(--main-border-color);
+  position: relative;
 }
 
 .i_grid-1 {
@@ -57,9 +263,20 @@
 
 @media screen and (max-width: 900px) {
   .index_grid {
-    min-width: 350px;
+    width: 95%;
+    min-width: 100px;
     max-height: 10000px;
     grid-template-columns: repeat(2, calc(50% - 10px)) ;
+  }
+  .index_grid-item {
+    height: auto;
+    min-height: auto;
+  }
+
+  .index_card-profile-picture{
+    display: block;
+    max-width: 140px;
+
   }
 
 .i_grid-1 {
@@ -83,13 +300,13 @@
 }
 
 .i_grid-5 {
-  grid-row: 5 / 7;
   grid-column: 1 / 2;
+  grid-row: 5 / 7;
 }
 
 .i_grid-6 {
-  grid-row: 5 / 6;
   grid-column: 2 / 3;
+  grid-row: 5 / 6;
 }
 
 .i_grid-9 {
@@ -113,3 +330,20 @@
 }
 }
 
+@media screen and (max-width: 350px) {
+  .index_grid {
+    width: 90%;
+    min-width: 100px;
+    max-height: 10000px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .index_grid-item {
+    height: auto;
+    min-height: auto;
+  }
+  .index_card-profile-picture{
+    position: relative;
+  }
+}

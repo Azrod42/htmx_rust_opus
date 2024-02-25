@@ -10,6 +10,11 @@ c: check
 check:
 	cargo check
 
+prod:
+	cargo build --release
+	docker stop rust_portfolio
+	docker-compose up --build -d
+
 build:
 	cargo build --release
 	cp ./target/release/rust_web .

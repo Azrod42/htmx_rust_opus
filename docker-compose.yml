@@ -1,0 +1,23 @@
+version: "3.8"
+# -=-=-=-=-=-=-=-=-=-=VOLUMES=-=-=-=-=-=-=-=-=-=-
+volumes:
+  data_portfolio:
+# -=-=-=-=-=-=-=-=-=-=NETWORKS=-=-=-=-=-=-=-=-=-=-
+networks:
+  my-proxy-net:
+    external:
+      name: nginx_network
+services:
+  # -=-=-=-=-=-=-=-=-=-=BACKEND=-=-=-=-=-=-=-=-=-=-
+  rust_portfolio:
+    volumes:
+      - ./:/app
+    build:
+      context: ./
+      dockerfile: ./back.dockerfile
+    container_name: rust_portfolio
+    ports:
+      - "4270:4270"
+    restart: unless-stopped
+    networks:
+      - my-proxy-net

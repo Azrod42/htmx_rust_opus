@@ -26,7 +26,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let pool_database = init_database().await;
     let app = init_routes(pool_database);
 
-    let listener = tokio::net::TcpListener::bind("127.0.0.1:42069")
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:4270")
         .await
         .unwrap();
     println!("listening on {}", listener.local_addr().unwrap());

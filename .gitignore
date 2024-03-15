@@ -2,3 +2,4 @@
 env.sh
 *.dockerfile
 rust_web
+.sqlx

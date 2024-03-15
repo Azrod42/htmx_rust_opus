@@ -18,6 +18,7 @@ use crate::{
 use super::{
     auth::{user_login, user_register},
     jwt_auth,
+    mariage::{mariage_music, mariage_response},
 };
 
 fn global_routes(app: axum::routing::Router) -> Router {
@@ -77,6 +78,8 @@ pub fn init_routes(pool: sqlx::PgPool) -> axum::routing::Router {
         .route("/login", post(user_login))
         .route("/register", post(user_register))
         .route("/visit", get(index_visit))
+        .route("/mariage/response", post(mariage_response))
+        .route("/mariage/music", post(mariage_music))
         .route(
             "/dashboard-props",
             get(dashboard_props).route_layer(middleware::from_fn_with_state(

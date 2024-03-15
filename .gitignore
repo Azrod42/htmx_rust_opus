@@ -1,3 +1,4 @@
 /target
 env.sh
 *.dockerfile
+rust_web

@@ -3,6 +3,10 @@
 
 <div class="auth_form-container hide" id="dashboard" hx-swap-oob="true">
   <form hx-post="/register" hx-ext='json-enc' hx-swap="afterend" class="auth_form">
+    <div style="align-self: flex-start; margin-left: 20px" hx-get="/" hx-push-url="/" hx-trigger="click"
+      hx-swap="outerHTML" hx-target="#body">
+      {% call button::default("button", variant="classic", label="← back", custom_style="width: 70px") %}
+    </div>
     <h1>Register</h1>
     <hr />
     <div class="auth_form-group">

@@ -1,5 +1,5 @@
 -- Add migration script here
-CREATE TABLE main.users (
+CREATE TABLE public.users (
 	id serial4 NOT NULL,
 	username varchar(255) NULL,
 	email varchar(255) NULL,
@@ -8,7 +8,7 @@ CREATE TABLE main.users (
 	CONSTRAINT users_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE main.visit (
+CREATE TABLE public.visit (
 	id serial4 NOT NULL,
 	"date" timestamp DEFAULT CURRENT_TIMESTAMP NULL,
 	user_agent varchar(255) NULL,

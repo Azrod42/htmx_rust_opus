@@ -6,7 +6,7 @@ volumes:
 networks:
   my-proxy-net:
     external:
-      name: nginx_network
+      name: ngix_default
 services:
   # -=-=-=-=-=-=-=-=-=-=BACKEND=-=-=-=-=-=-=-=-=-=-
   rust_portfolio:

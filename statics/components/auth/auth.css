@@ -5,6 +5,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  animation: showBody 1s forwards 1s;
 }
 
 .auth_form {
@@ -20,18 +21,21 @@
   opacity: 0.6;
   animation: fadeInAnimation ease 0.6s;
   animation-iteration-count: 1;
-  animation-fill-mode: forwards;}
+  animation-fill-mode: forwards;
+}
 
 @keyframes fadeInAnimation {
-    0% {
-      opacity: 0;
-    }
-    10%{
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
+  0% {
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
 
@@ -40,7 +44,7 @@
   margin-bottom: 30px;
 }
 
-.auth_register{
+.auth_register {
   font-size: 13px;
 }
 

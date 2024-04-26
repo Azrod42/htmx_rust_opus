@@ -19,8 +19,17 @@ body {
   background-color: var(--main-bg-color);
   color: var(--main-text-color);
   margin: 0;
+  opacity: 0;
   font-family: Barlow;
+  animation: showBody 1s forwards 1s;
 }
+
+@keyframes showBody {
+  100% {
+    opacity: 1;
+  }
+}
+
 
 hr {
   width: 70%;
@@ -29,7 +38,11 @@ hr {
   margin: 0;
 }
 
-h1, h2, h3, h4, h5 {
+h1,
+h2,
+h3,
+h4,
+h5 {
   margin: 0 0 10px 0;
 }
 
@@ -37,6 +50,10 @@ h1, h2, h3, h4, h5 {
   color: red;
 }
 
+.hide {
+  opacity: 0;
+  animation: showBody 1s forwards 1s;
+}
 
 .error {
   background-color: var(--error);
@@ -58,4 +75,3 @@ h1, h2, h3, h4, h5 {
 .a:hover {
   text-decoration: underline;
 }
-

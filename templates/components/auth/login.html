@@ -1,10 +1,10 @@
 {%- import "components/inputs/textfield.html" as textfield -%}
 {%- import "components/inputs/button.html" as button -%}
 
-<div class="auth_form-container" id="dashboard" hx-swap-oob="true">
+<div class="auth_form-container hide" id="dashboard" hx-swap-oob="true">
   <form hx-post="/login" hx-ext='json-enc' hx-swap="afterend" class="auth_form">
     <h1>Login</h1>
-    <hr/>
+    <hr />
     <div class="auth_form-group">
       {% call textfield::classic("text", name="email", label="Email address") %}
       {% call textfield::classic("password", name="password", label="Password") %}
@@ -17,6 +17,5 @@
       </span>
     </span>
   </form>
-  <link href="css/components/auth/auth.css" rel="stylesheet" hx-swap-oob="true" id="auth-css"  />
+  <link href="css/components/auth/auth.css" rel="stylesheet" hx-swap-oob="true" id="auth-css" />
 </div>
-

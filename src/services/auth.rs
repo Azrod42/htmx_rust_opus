@@ -197,3 +197,17 @@ pub async fn user_register(
         )),
     }
 }
+
+pub async fn logout() -> Result<impl IntoResponse, (StatusCode, Login)> {
+    let cookie = Cookie::build("authentication ")
+        .path("/")
+        .max_age(time::Duration::hours(4))
+        .same_site(SameSite::Lax)
+        .http_only(true);
+
+    let mut response = Response::new(Login {}.to_string());
+    response
+        .headers_mut()
+        .insert(header::SET_COOKIE, cookie.to_string().parse().unwrap());
+    Ok(response)
+}

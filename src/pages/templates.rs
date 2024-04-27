@@ -21,6 +21,18 @@ pub struct Dashboard {}
 pub struct DashboardBody {}
 
 #[derive(Template)]
+#[template(path = "components/dashboard/home.html")]
+pub struct DashboardHome {}
+
+#[derive(Template)]
+#[template(path = "components/dashboard/tools.html")]
+pub struct DashboardTools {}
+
+#[derive(Template)]
+#[template(path = "components/tools/main.html")]
+pub struct ToolsMain {}
+
+#[derive(Template)]
 #[template(path = "components/snackbar.html")]
 pub struct Snackbar {
     pub status: String,

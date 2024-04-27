@@ -1,19 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@200;400;700&display=swap');
-@import url("inputs.css");
-@import url("feedback.css");
+@import url('inputs.css');
+@import url('feedback.css');
 
 :root {
   --main-bg-color: #121212;
   --light-bg-color: #323232;
-  --main-text-color: #FEFEFE;
+  --main-text-color: #fefefe;
   --dark-text-color: #050505;
   --main-border-color: #2f2f2f;
-  --primary: #8BC3F1;
-  --secondary: #42A5F5;
+  --primary: #8bc3f1;
+  --secondary: #42a5f5;
   --warning: #ffc338;
-  --error: #D42C64;
+  --error: #d42c64;
 }
-
 
 body {
   background-color: var(--main-bg-color);
@@ -29,7 +28,6 @@ body {
     opacity: 1;
   }
 }
-
 
 hr {
   width: 70%;
@@ -52,7 +50,7 @@ h5 {
 
 .hide {
   opacity: 0;
-  animation: showBody 1s forwards 1s;
+  animation: showBody 500ms forwards 100ms;
 }
 
 .error {

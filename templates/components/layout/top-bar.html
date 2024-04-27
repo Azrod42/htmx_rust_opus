@@ -1,0 +1,37 @@
+{%- import "components/inputs/button.html" as button -%}
+
+{% macro default() %}
+<div class="top-bar_container">
+  {% call links() %}
+  {% call logout() %}
+</div>
+{% endmacro %}
+
+{% macro links() %}
+<div class="top-bar_links">
+  <div hx-get="/dashboard-home"
+      hx-trigger="click"
+      hx-swap="innerHTML"
+      hx-target="#dashboard_content">
+    {% call button::default("button", variant="classic", label="Home", custom_style="width: 60px;text-transform: none") %}
+  </div>
+  <div hx-get="/dashboard-tools"
+      hx-trigger="click"
+      hx-swap="innerHTML"
+      hx-target="#dashboard_content">
+    {% call button::default("button", variant="classic", label="Tools", custom_style="width: 60px;text-transform: none") %}
+  </div>
+</div>
+{% endmacro %}
+
+{% macro logout() %}
+<div class="top-bar_logout">
+    <div style="align-self: flex-start; margin-left: 20px" 
+        hx-get="/logout"
+        hx-trigger="click"
+        hx-swap="afterend"
+        hx-target="#dashboard">
+      {% call button::default("button", variant="classic", label="Logout", custom_style="width: 100px;text-transform: none") %}
+    </div>
+</div>
+{% endmacro %}

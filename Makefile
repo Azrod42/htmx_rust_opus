@@ -1,6 +1,6 @@
 ENV=
 
-all: run
+all: prod
 
 run:
 	${ENV} cargo watch -x run
@@ -10,9 +10,8 @@ c: check
 check:
 	cargo check
 
-prod:
+prod: clean
 	cargo build --release
-	docker stop rust_portfolio
 	docker-compose up --build -d
 
 build:

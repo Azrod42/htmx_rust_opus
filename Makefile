@@ -1,26 +1,24 @@
 ENV=
+MY_FILE := rust_web
 
-all: prod
+all: deploy
 
 run:
 	${ENV} cargo watch -x run
 
-c: check
-
-check:
-	cargo check
-
-prod: clean
-	cargo build --release
+deploy: fclean build
+	@if [ ! -e $(MY_FILE) ]; then \
+		echo "Le fichier $(MY_FILE) n'existe pas, arrêt du processus Make."; \
+		exit 1; \
+	fi
 	docker-compose up --build -d
 
 build:
 	cargo build --release
 	cp ./target/release/rust_web .
-	${ENV} ./rust_web
 
 clean:
 	rm -rf ./target/
 
 fclean: clean 
-	rm ./scop
+	rm -rf ./rust_web

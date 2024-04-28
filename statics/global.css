@@ -7,9 +7,10 @@
   --light-bg-color: #323232;
   --main-text-color: #fefefe;
   --dark-text-color: #050505;
-  --main-border-color: #2f2f2f;
-  --primary: #8bc3f1;
-  --secondary: #42a5f5;
+  --main-border-color: #960018;
+  /* --primary: #8bc3f1; */
+  --primary: #960018;
+  --secondary: #ec5353;
   --warning: #ffc338;
   --error: #d42c64;
 }

@@ -29,8 +29,9 @@
     <div style="align-self: flex-start; margin-left: 20px" 
         hx-get="/logout"
         hx-trigger="click"
-        hx-swap="afterend"
-        hx-target="#dashboard">
+        hx-swap="none"
+        hx-on:htmx:after-request="window.location.reload()"
+    >
       {% call button::default("button", variant="classic", label="Logout", custom_style="width: 100px;text-transform: none") %}
     </div>
 </div>

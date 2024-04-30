@@ -10,7 +10,7 @@ use sqlx::{query, Row};
 use crate::{
     pages::{
         components::return_snackbar,
-        templates::{DashboardBody, Login, Snackbar},
+        templates::{AuthPage, Login, LoginSuccess, Snackbar},
     },
     structs::{
         auth::{LoginPayload, RegisterPayload},
@@ -29,7 +29,7 @@ pub async fn user_login(
 ) -> Result<impl IntoResponse, (StatusCode, Snackbar)> {
     let error_status = String::from("Error: ");
     let user_result = sqlx::query("SELECT * FROM users WHERE email = $1")
-        .bind(&payload.email)
+        .bind(&payload.email.to_lowercase())
         .map(|row: sqlx::postgres::PgRow| User {
             id: row.get(0),
             username: row.get(1),
@@ -96,7 +96,7 @@ pub async fn user_login(
         .same_site(SameSite::Lax)
         .http_only(true);
 
-    let mut response = Response::new(DashboardBody {}.to_string());
+    let mut response = Response::new(LoginSuccess {}.to_string());
     response
         .headers_mut()
         .insert(header::SET_COOKIE, cookie.to_string().parse().unwrap());
@@ -109,7 +109,7 @@ pub async fn user_register(
 ) -> Result<impl IntoResponse, (StatusCode, Snackbar)> {
     let error_status = String::from("Error: ");
     let user_result = sqlx::query("SELECT * FROM users WHERE email = $1")
-        .bind(&payload.email)
+        .bind(&payload.email.to_lowercase())
         .map(|row: sqlx::postgres::PgRow| UserId { id: row.get(0) })
         .fetch_one(&mut *conn)
         .await;
@@ -125,7 +125,7 @@ pub async fn user_register(
         Err(_) => {}
     };
 
-    if !RegexPattern::Email.is_match(&payload.email) {
+    if !RegexPattern::Email.is_match(&payload.email.to_lowercase()) {
         return Err(return_snackbar(
             error_status,
             String::from("Invalid email"),
@@ -183,7 +183,7 @@ pub async fn user_register(
         r#"INSERT INTO users (username, password, email) VALUES ($1, $2, $3) RETURNING id, username"#,
         payload.username,
         hashed_password,
-        payload.email
+        payload.email.to_lowercase()
     )
     .fetch_one(&mut *conn)
     .await;

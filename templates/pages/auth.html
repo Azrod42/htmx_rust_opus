@@ -1,0 +1,20 @@
+{%- import "components/layout/styles.html" as styles -%}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Cealum</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  {% call styles::default() %}
+</head>
+
+<body id="body">
+  <main>
+    <div id="content" hx-get="login" hx-swap="innerHTML" hx-trigger="load"></div>
+    <div id="snackbar"></div>
+  </main>
+</body>
+
+</html>

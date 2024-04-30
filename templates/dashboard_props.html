@@ -1,8 +1,0 @@
-{%- import "components/layout/top-bar.html" as topBar -%}
-
-<div id="dashboard" hx-swap-oob="true" class="dashboard_container">
-  {% call topBar::default() %}
-  <div hx-get="/dashboard-home" hx-trigger="load" hx-swap="innerHTML" id="dashboard_content" class="dashboard-content"></div>
-
-  <link href="css/dashboard.css" rel="stylesheet" hx-swap-oob="true" id="dashboard-css" />
-</div>

@@ -1,11 +1,7 @@
-use super::templates::{Dashboard, DashboardBody, DashboardHome, DashboardTools, ToolsMain};
+use super::templates::{Dashboard, DashboardHome, DashboardTools, ToolsMain};
 
 pub async fn dashboard() -> Dashboard {
     Dashboard {}
-}
-
-pub async fn dashboard_props() -> DashboardBody {
-    DashboardBody {}
 }
 
 pub async fn dashboard_home() -> DashboardHome {

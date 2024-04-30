@@ -1,0 +1,23 @@
+{%- import "components/layout/top-bar.html" as topBar -%}
+{%- import "components/layout/styles.html" as styles -%}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Cealum</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  {% call styles::default() %}
+</head>
+
+<body id="body">
+    <div id="content">
+      {% call topBar::default() %}
+      <div hx-get="/dashboard-home" hx-trigger="load" hx-swap="innerHTML" id="dashboard_content" class="dashboard-content"></div>
+    </div>
+    <div id="snackbar"></div>
+    <link href="css/dashboard.css" rel="stylesheet" hx-swap-oob="true" id="dashboard-css" />
+</body>
+
+</html>

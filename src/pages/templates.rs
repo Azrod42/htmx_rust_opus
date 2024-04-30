@@ -1,7 +1,7 @@
 use askama::Template;
 
 #[derive(Template)]
-#[template(path = "index.html")]
+#[template(path = "pages/index.html")]
 pub struct Index {}
 
 #[derive(Template)]
@@ -9,16 +9,20 @@ pub struct Index {}
 pub struct Login {}
 
 #[derive(Template)]
+#[template(path = "components/auth/loginSuccess.html")]
+pub struct LoginSuccess {}
+
+#[derive(Template)]
+#[template(path = "pages/auth.html")]
+pub struct AuthPage {}
+
+#[derive(Template)]
 #[template(path = "components/auth/register.html")]
 pub struct Register {}
 
 #[derive(Template)]
-#[template(path = "dashboard.html")]
+#[template(path = "pages/dashboard.html")]
 pub struct Dashboard {}
-
-#[derive(Template)]
-#[template(path = "dashboard_props.html")]
-pub struct DashboardBody {}
 
 #[derive(Template)]
 #[template(path = "components/dashboard/home.html")]

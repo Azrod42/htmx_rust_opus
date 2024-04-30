@@ -1,0 +1,28 @@
+{%- import "components/index/grid.html" as grid -%}
+{%- import "components/inputs/button.html" as button -%}
+{%- import "components/layout/styles.html" as styles -%}
+
+<!doctype html>
+<html lang="en" id="html">
+
+<head>
+  <title>Portfolio tsorabel</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  {% call styles::default() %}
+</head>
+
+<body id="body">
+  <main>
+    <div class="index_container" id="content">
+      {% call grid::grid() %}
+      <div class="index_dashboard_button_wraper" hx-get="/dashboard" hx-push-url="/dashboard" hx-trigger="click"
+        hx-swap="none" hx-target="#content" hx-on:htmx:after-request="window.location.reload()">
+        {% call button::default("button", variant="classic", label="Dashboard", custom_style="width: 180px;height: 35px")%}
+      </div>
+    </div>
+  </main>
+  <link href="css/index.css" rel="stylesheet" hx-swap-oob="true" id="index-css" />
+</body>
+
+</html>

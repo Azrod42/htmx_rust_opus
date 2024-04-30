@@ -11,7 +11,7 @@ use serde::Serialize;
 use sqlx::Row;
 
 use crate::{
-    pages::templates::Login,
+    pages::templates::AuthPage,
     structs::{database::DatabaseConnection, entity::user::User, jwt_token::JwtToken},
 };
 
@@ -26,7 +26,7 @@ pub async fn check_user_auth(
     DatabaseConnection(mut conn): DatabaseConnection,
     mut req: Request<Body>,
     next: Next,
-) -> Result<impl IntoResponse, (StatusCode, Login)> {
+) -> Result<impl IntoResponse, (StatusCode, AuthPage)> {
     let token = cookie_jar
         .get("token")
         .map(|cookie| cookie.value().to_string())
@@ -45,7 +45,7 @@ pub async fn check_user_auth(
 
     let token = token.unwrap_or("NA".to_string());
     if token == "NA" {
-        return Err((StatusCode::OK, Login {}));
+        return Err((StatusCode::OK, AuthPage {}));
     }
 
     let jwt_secret = std::env::var("JWT_TOKEN").expect("JWT_TOKEN is unset");
@@ -54,7 +54,7 @@ pub async fn check_user_auth(
         &DecodingKey::from_secret(jwt_secret.as_ref()),
         &Validation::default(),
     )
-    .map_err(|_| (StatusCode::OK, Login {}))?
+    .map_err(|_| (StatusCode::OK, AuthPage {}))?
     .claims;
 
     let user = sqlx::query("SELECT * FROM users WHERE email = $1")
@@ -70,7 +70,7 @@ pub async fn check_user_auth(
 
     match &user {
         Ok(_) => {}
-        Err(_) => return Err((StatusCode::UNAUTHORIZED, Login {})),
+        Err(_) => return Err((StatusCode::UNAUTHORIZED, AuthPage {})),
     }
     let user = user.unwrap();
 

@@ -10,7 +10,8 @@ use crate::{
     pages::{
         auth::{user_login_page, user_register_page},
         components::index_visit,
-        dashboard::{dashboard, dashboard_home, dashboard_props, dashboard_tools, tools_main},
+        dashboard::{dashboard, dashboard_home, dashboard_tools, tools_main},
+        settings::settings_page,
     },
 };
 
@@ -82,9 +83,22 @@ pub fn auth_routes(pool: sqlx::PgPool) -> axum::routing::Router {
 pub fn folio_routes(pool: sqlx::PgPool) -> axum::routing::Router {
     let app = Router::new()
         .route("/", get(index))
-        .route("/dashboard", get(dashboard))
         .route("/visit", get(index_visit))
         .route("/clear-element", get(""))
+        .with_state(pool)
+        .layer(CorsLayer::permissive());
+    app
+}
+
+pub fn settings_routes(pool: sqlx::PgPool) -> axum::routing::Router {
+    let app = Router::new()
+        .route(
+            "/settings",
+            get(settings_page).route_layer(middleware::from_fn_with_state(
+                pool.clone(),
+                jwt_auth::check_user_auth,
+            )),
+        )
         .with_state(pool)
         .layer(CorsLayer::permissive());
     app
@@ -93,8 +107,8 @@ pub fn folio_routes(pool: sqlx::PgPool) -> axum::routing::Router {
 pub fn dashboard_routes(pool: sqlx::PgPool) -> axum::routing::Router {
     let app = Router::new()
         .route(
-            "/dashboard-props",
-            get(dashboard_props).route_layer(middleware::from_fn_with_state(
+            "/dashboard",
+            get(dashboard).route_layer(middleware::from_fn_with_state(
                 pool.clone(),
                 jwt_auth::check_user_auth,
             )),

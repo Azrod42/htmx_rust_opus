@@ -1,7 +1,7 @@
 {%- import "components/inputs/textfield.html" as textfield -%}
 {%- import "components/inputs/button.html" as button -%}
 
-<div class="auth_form-container hide" id="dashboard" hx-swap-oob="true">
+<div class="auth_form-container" id="content" hx-swap-oob="true">
   <form hx-post="/register" hx-ext='json-enc' hx-swap="afterend" class="auth_form">
     <div style="align-self: flex-start; margin-left: 20px" hx-get="/" hx-push-url="/" hx-trigger="click"
       hx-swap="outerHTML" hx-target="#body">

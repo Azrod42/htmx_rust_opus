@@ -12,12 +12,14 @@
 </head>
 
 <body id="body">
+  <main>
     <div id="content">
       {% call topBar::default() %}
-      <div hx-get="/dashboard-home" hx-trigger="load" hx-swap="innerHTML" id="dashboard_content" class="dashboard-content"></div>
+      <div hx-get="/dashboard-home" hx-trigger="load" hx-swap="innerHTML" id="window_content" class="window-content"></div>
     </div>
     <div id="snackbar"></div>
-    <link href="css/dashboard.css" rel="stylesheet" hx-swap-oob="true" id="dashboard-css" />
+  </main>
+  <link href="css/dashboard.css" rel="stylesheet" hx-swap-oob="true" id="dashboard-css" />
 </body>
 
 </html>

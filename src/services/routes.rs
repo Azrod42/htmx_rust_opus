@@ -22,27 +22,31 @@ use super::{
 
 pub fn services_routes(pool: sqlx::PgPool) -> Router {
     let app = Router::new()
-        .route_service("/css/global.css", ServeFile::new("statics/global.css"))
-        .route_service("/css/index.css", ServeFile::new("statics/index.css"))
+        .route_service("/css/global.css", ServeFile::new("statics/css/global.css"))
+        .route_service("/css/index.css", ServeFile::new("statics/css/index.css"))
         .route_service(
             "/css/dashboard.css",
-            ServeFile::new("statics/dashboard.css"),
+            ServeFile::new("statics/css/dashboard.css"),
+        )
+        .route_service(
+            "/css/settings.css",
+            ServeFile::new("statics/css/settings.css"),
         )
         .route_service(
             "/css/components/auth/auth.css",
-            ServeFile::new("statics/components/auth/auth.css"),
+            ServeFile::new("statics/css/components/auth/auth.css"),
         )
         .route_service(
             "/css/inputs.css",
-            ServeFile::new("statics/components/inputs.css"),
+            ServeFile::new("statics/css/components/inputs.css"),
         )
         .route_service(
             "/css/feedback.css",
-            ServeFile::new("statics/components/feedback.css"),
+            ServeFile::new("statics/css/components/feedback.css"),
         )
         .route_service(
             "/css/components/tools.css",
-            ServeFile::new("statics/components/tools.css"),
+            ServeFile::new("statics/css/components/tools.css"),
         )
         .route_service(
             "/icons/github.svg",

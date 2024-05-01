@@ -9,8 +9,8 @@ use sqlx::{query, Row};
 
 use crate::{
     pages::{
-        components::return_snackbar,
-        templates::{AuthPage, Login, LoginSuccess, Snackbar},
+        auth::{Login, LoginSuccess},
+        components::{return_snackbar, Snackbar},
     },
     structs::{
         auth::{LoginPayload, RegisterPayload},

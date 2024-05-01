@@ -14,7 +14,7 @@
 <body id="body">
   <main>
     <div id="content">
-      {% call topBar::default() %}
+      {% call topBar::default(username) %}
       <div hx-get="/dashboard-home" hx-trigger="load" hx-swap="innerHTML" id="window_content" class="window-content"></div>
     </div>
     <div id="snackbar"></div>

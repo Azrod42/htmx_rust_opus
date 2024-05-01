@@ -5,14 +5,12 @@ use axum::{
 };
 use tower_http::{cors::CorsLayer, services::ServeFile};
 
-use crate::{
-    index,
-    pages::{
-        auth::{user_login_page, user_register_page},
-        components::index_visit,
-        dashboard::{dashboard, dashboard_home, dashboard_tools, tools_main},
-        settings::settings_page,
-    },
+use crate::pages::{
+    auth::{user_login_page, user_register_page},
+    components::index_visit,
+    dashboard::{dashboard, dashboard_home, dashboard_tools, tools_main},
+    index::index_page,
+    settings::settings_page,
 };
 
 use super::{
@@ -20,7 +18,73 @@ use super::{
     jwt_auth,
 };
 
-pub fn services_routes(pool: sqlx::PgPool) -> Router {
+pub fn auth_routes(pool: &sqlx::PgPool) -> axum::routing::Router {
+    let app = Router::new()
+        .route("/register", get(user_register_page))
+        .route("/login", get(user_login_page))
+        .route("/login", post(user_login))
+        .route("/register", post(user_register))
+        .route("/logout", get(logout))
+        .with_state(pool.clone())
+        .layer(CorsLayer::permissive());
+    app
+}
+pub fn folio_routes(pool: &sqlx::PgPool) -> axum::routing::Router {
+    let app = Router::new()
+        .route("/", get(index_page))
+        .route("/visit", get(index_visit))
+        .route("/clear-element", get(""))
+        .with_state(pool.clone())
+        .layer(CorsLayer::permissive());
+    app
+}
+
+pub fn settings_routes(pool: &sqlx::PgPool) -> axum::routing::Router {
+    let app = Router::new()
+        .route(
+            "/settings",
+            get(settings_page).route_layer(middleware::from_fn_with_state(
+                pool.clone(),
+                jwt_auth::check_user_auth,
+            )),
+        )
+        .with_state(pool.clone())
+        .layer(CorsLayer::permissive());
+    app
+}
+
+pub fn dashboard_routes(pool: &sqlx::PgPool) -> axum::routing::Router {
+    let middleware = middleware::from_fn_with_state(pool.clone(), jwt_auth::check_user_auth);
+    let app = Router::new()
+        .route("/dashboard", get(dashboard).route_layer(middleware.clone()))
+        .route(
+            "/dashboard-home",
+            get(dashboard_home).route_layer(middleware.clone()),
+        )
+        .route(
+            "/dashboard-tools",
+            get(dashboard_tools).route_layer(middleware),
+        )
+        .with_state(pool.clone())
+        .layer(CorsLayer::permissive());
+    app
+}
+
+pub fn tools_routes(pool: sqlx::PgPool) -> axum::routing::Router {
+    let app = Router::new()
+        .route(
+            "/main",
+            get(tools_main).route_layer(middleware::from_fn_with_state(
+                pool.clone(),
+                jwt_auth::check_user_auth,
+            )),
+        )
+        .with_state(pool.clone())
+        .layer(CorsLayer::permissive());
+    app
+}
+
+pub fn services_routes(pool: &sqlx::PgPool) -> Router {
     let app = Router::new()
         .route_service("/css/global.css", ServeFile::new("statics/css/global.css"))
         .route_service("/css/index.css", ServeFile::new("statics/css/index.css"))
@@ -68,84 +132,7 @@ pub fn services_routes(pool: sqlx::PgPool) -> Router {
         .route_service("/setup.webp", ServeFile::new("statics/images/setup.webp"))
         .route_service("/icons/x.svg", ServeFile::new("statics/images/logos/x.svg"))
         .route_service("/favicon.ico", ServeFile::new("statics/images/favicon.ico"))
-        .with_state(pool)
-        .layer(CorsLayer::permissive());
-    app
-}
-
-pub fn auth_routes(pool: sqlx::PgPool) -> axum::routing::Router {
-    let app = Router::new()
-        .route("/register", get(user_register_page))
-        .route("/login", get(user_login_page))
-        .route("/login", post(user_login))
-        .route("/register", post(user_register))
-        .route("/logout", get(logout))
-        .with_state(pool)
-        .layer(CorsLayer::permissive());
-    app
-}
-pub fn folio_routes(pool: sqlx::PgPool) -> axum::routing::Router {
-    let app = Router::new()
-        .route("/", get(index))
-        .route("/visit", get(index_visit))
-        .route("/clear-element", get(""))
-        .with_state(pool)
-        .layer(CorsLayer::permissive());
-    app
-}
-
-pub fn settings_routes(pool: sqlx::PgPool) -> axum::routing::Router {
-    let app = Router::new()
-        .route(
-            "/settings",
-            get(settings_page).route_layer(middleware::from_fn_with_state(
-                pool.clone(),
-                jwt_auth::check_user_auth,
-            )),
-        )
-        .with_state(pool)
-        .layer(CorsLayer::permissive());
-    app
-}
-
-pub fn dashboard_routes(pool: sqlx::PgPool) -> axum::routing::Router {
-    let app = Router::new()
-        .route(
-            "/dashboard",
-            get(dashboard).route_layer(middleware::from_fn_with_state(
-                pool.clone(),
-                jwt_auth::check_user_auth,
-            )),
-        )
-        .route(
-            "/dashboard-home",
-            get(dashboard_home).route_layer(middleware::from_fn_with_state(
-                pool.clone(),
-                jwt_auth::check_user_auth,
-            )),
-        )
-        .route(
-            "/dashboard-tools",
-            get(dashboard_tools).route_layer(middleware::from_fn_with_state(
-                pool.clone(),
-                jwt_auth::check_user_auth,
-            )),
-        )
-        .with_state(pool)
-        .layer(CorsLayer::permissive());
-    app
-}
-
-pub fn tools_routes(pool: sqlx::PgPool) -> axum::routing::Router {
-    let app = Router::new()
-        .route(
-            "/main",
-            get(tools_main).route_layer(middleware::from_fn_with_state(
-                pool.clone(),
-                jwt_auth::check_user_auth,
-            )),
-        )
-        .with_state(pool)
+        .with_state(pool.clone())
         .layer(CorsLayer::permissive());
     app
 }

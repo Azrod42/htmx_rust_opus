@@ -1,10 +1,23 @@
+use askama::Template;
 use askama_axum::IntoResponse;
 use axum::http::{HeaderMap, StatusCode};
 use sqlx::{query, Row};
 
 use crate::structs::{database::DatabaseConnection, entity::visit::VisitId};
 
-use super::templates::{IndexVisit, Snackbar};
+#[derive(Template)]
+#[template(path = "components/snackbar.html")]
+pub struct Snackbar {
+    pub status: String,
+    pub message: String,
+    pub color: String,
+}
+
+#[derive(Template)]
+#[template(path = "components/index/visit.html")]
+pub struct IndexVisit {
+    pub number_visit: i32,
+}
 
 pub fn return_snackbar(
     status: String,

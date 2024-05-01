@@ -11,7 +11,7 @@ use serde::Serialize;
 use sqlx::Row;
 
 use crate::{
-    pages::templates::AuthPage,
+    pages::auth::AuthPage,
     structs::{database::DatabaseConnection, entity::user::User, jwt_token::JwtToken},
 };
 

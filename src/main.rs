@@ -6,7 +6,6 @@ use std::env;
 
 use askama_axum::IntoResponse;
 use axum::http::StatusCode;
-use pages::templates::Index;
 
 use crate::{
     services::routes::{
@@ -14,10 +13,6 @@ use crate::{
     },
     structs::database::init_database,
 };
-
-async fn index() -> Index {
-    Index {}
-}
 
 pub async fn handler_404() -> impl IntoResponse {
     (StatusCode::NOT_FOUND, "nothing to see here")
@@ -30,11 +25,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let pool_database = init_database().await;
 
-    let nested_routes = auth_routes(pool_database.clone())
-        .merge(services_routes(pool_database.clone()))
-        .merge(settings_routes(pool_database.clone()))
-        .merge(folio_routes(pool_database.clone()))
-        .merge(dashboard_routes(pool_database.clone()))
+    let nested_routes = auth_routes(&pool_database)
+        .merge(services_routes(&pool_database))
+        .merge(settings_routes(&pool_database))
+        .merge(folio_routes(&pool_database))
+        .merge(dashboard_routes(&pool_database))
         .nest("/tools", tools_routes(pool_database));
 
     let listener = tokio::net::TcpListener::bind("0.0.0.0:4270").await.unwrap();

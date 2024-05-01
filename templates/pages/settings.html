@@ -1,6 +1,7 @@
 {%- import "components/layout/top-bar.html" as topBar -%}
 {%- import "components/layout/styles.html" as styles -%}
 {%- import "components/layout/configuration-page.html" as configurationPage -%}
+{%- import "components/layout/loader.html" as loader -%}
 
 <!doctype html>
 <html lang="en">
@@ -22,7 +23,7 @@
           hx-trigger="load"
           hx-swap="innerHTML"
         >
-          Loading...
+          {% call loader::default() %}
         </div>
       {% call configurationPage::end() %}
     </div>

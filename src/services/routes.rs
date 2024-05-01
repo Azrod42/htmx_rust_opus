@@ -147,6 +147,10 @@ pub fn services_routes(pool: &sqlx::PgPool) -> Router {
             "/icons/stack.svg",
             ServeFile::new("statics/images/logos/stack.svg"),
         )
+        .route_service(
+            "/statics/images/loader.svg",
+            ServeFile::new("statics/images/loader.svg"),
+        )
         .route_service("/pp.png", ServeFile::new("statics/images/pp.png"))
         .route_service("/setup.webp", ServeFile::new("statics/images/setup.webp"))
         .route_service("/icons/x.svg", ServeFile::new("statics/images/logos/x.svg"))

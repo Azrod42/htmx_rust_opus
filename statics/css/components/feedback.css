@@ -1,11 +1,11 @@
 /* ================================================================== */
-                              /* Snackbar */
+/* Snackbar */
 /* ================================================================== */
 
 .snackbar {
   position: absolute;
   bottom: -100;
-  left: 50%;
+  left: calc(50% - 100px);
   background-color: var(--main-bg-color);
   border: 1px solid var(--main-border-color);
   padding: 12px 20px;
@@ -16,7 +16,6 @@
   font-weight: 700;
 }
 
-
 @keyframes slideinout {
   0% {
     bottom: 110%;
@@ -24,11 +23,10 @@
   5% {
     bottom: 90%;
   }
-  95%{
+  95% {
     bottom: 90%;
   }
   100% {
     bottom: 110%;
   }
 }
-

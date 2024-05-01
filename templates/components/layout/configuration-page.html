@@ -1,0 +1,16 @@
+{%- import "components/inputs/button.html" as button -%}
+
+{% macro start(back_target, title) %}
+<div class="configuration-page_container">
+  <div class="" hx-get="/{{back_target}}" hx-push-url="/{{back_target}}" hx-trigger="click"
+      hx-swap="none" target="#content" hx-on:htmx:after-request="window.location.reload()">
+      {% call button::default("button", variant="classic", label="⬅ Back", custom_style="width: 80px;height: 35px")%}
+  </div>
+  <h1 class="configuration-page_title">{{title}}</h1>
+  <div>
+{% endmacro %}
+
+{% macro end() %}
+  </div>
+</div>
+{% endmacro %}

@@ -1,0 +1,11 @@
+{%- import "components/inputs/textfield.html" as textfield -%}
+{%- import "components/inputs/button.html" as button -%}
+
+<div class="settings-profile_container">
+  <h2>General Profile</h2>
+  <form hx-post="/settings/profile" hx-ext='json-enc' hx-swap="afterend" class="settings-profile_form">
+    {% call textfield::classic_default_value_disabled("text", name="email", label="Email address", default_value=email.clone()) %}
+    {% call textfield::classic_default_value("text", name="username", label="Username", default_value=username.clone()) %}
+    {% call button::default("submit", variant="contained", label="Save", custom_style="align-self: flex-end") %}
+  </form>
+</div>

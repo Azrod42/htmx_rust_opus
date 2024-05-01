@@ -72,7 +72,8 @@ pub async fn check_user_auth(
         Ok(_) => {}
         Err(_) => return Err((StatusCode::UNAUTHORIZED, AuthPage {})),
     }
-    let user = user.unwrap();
+    let mut user = user.unwrap();
+    user.password = String::from("");
 
     req.extensions_mut().insert(user);
     Ok(next.run(req).await)

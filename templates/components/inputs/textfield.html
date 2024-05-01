@@ -7,3 +7,23 @@
   </div>
 </div>
 {% endmacro %}
+
+{% macro classic_default_value_disabled(input_type, name, label, default_value) %}
+<div class="textarea-container" style="cursor: not-allowed;">
+  <div class="textarea-group" >
+    <input required="" type="{{input_type}}" name="{{name}}" class="textarea-input" disabled value="{{default_value}}" style="color: grey; cursor: not-allowed;" />
+    <span class="textarea-bar"></span>
+    <label class="textarea-focused">{{label}}</label>
+  </div>
+</div>
+{% endmacro %}
+
+{% macro classic_default_value(input_type, name, label,default_value) %}
+<div class="textarea-container">
+  <div class="textarea-group">
+    <input required="" type="{{input_type}}" name="{{name}}" class="textarea-input" value="{{default_value}}">
+    <span class="textarea-bar"></span>
+    <label class="textarea-label">{{label}}</label>
+  </div>
+</div>
+{% endmacro %}

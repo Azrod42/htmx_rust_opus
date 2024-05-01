@@ -1,5 +1,6 @@
 {%- import "components/layout/top-bar.html" as topBar -%}
 {%- import "components/layout/styles.html" as styles -%}
+{%- import "components/layout/configuration-page.html" as configurationPage -%}
 
 <!doctype html>
 <html lang="en">
@@ -14,7 +15,16 @@
 <body id="body">
   <main>
     <div id="content">
-      <div id="window_content" class="window-content">SETIIIIIIIIIIIIIIIIIIIIIIIING</div>
+      {% call configurationPage::start(back_target="dashboard", title="Settings") %}
+        <div id="window_content" 
+          class="window-content"
+          hx-get="settings/profile"
+          hx-trigger="load"
+          hx-swap="innerHTML"
+        >
+          Loading...
+        </div>
+      {% call configurationPage::end() %}
     </div>
     <div id="snackbar"></div>
   </main>

@@ -10,12 +10,13 @@ use crate::pages::{
     components::{index_visit, top_bar_menu},
     dashboard::{dashboard, dashboard_home, dashboard_tools, tools_main},
     index::index_page,
-    settings::settings_page,
+    settings::{settings_page, settings_profile},
 };
 
 use super::{
     auth::{logout, user_login, user_register},
     jwt_auth,
+    settings::settings_update_profile,
 };
 
 pub fn auth_routes(pool: &sqlx::PgPool) -> axum::routing::Router {
@@ -44,6 +45,20 @@ pub fn settings_routes(pool: &sqlx::PgPool) -> axum::routing::Router {
         .route(
             "/settings",
             get(settings_page).route_layer(middleware::from_fn_with_state(
+                pool.clone(),
+                jwt_auth::check_user_auth,
+            )),
+        )
+        .route(
+            "/settings/profile",
+            get(settings_profile).route_layer(middleware::from_fn_with_state(
+                pool.clone(),
+                jwt_auth::check_user_auth,
+            )),
+        )
+        .route(
+            "/settings/profile",
+            post(settings_update_profile).route_layer(middleware::from_fn_with_state(
                 pool.clone(),
                 jwt_auth::check_user_auth,
             )),

@@ -8,7 +8,7 @@ use tower_http::{cors::CorsLayer, services::ServeFile};
 use crate::pages::{
     auth::{user_login_page, user_register_page},
     components::{index_visit, top_bar_menu},
-    dashboard::{dashboard, dashboard_home, dashboard_tools, tools_main},
+    dashboard::{dashboard, dashboard_home, dashboard_home_weather, dashboard_tools, tools_main},
     index::index_page,
     settings::{settings_page, settings_profile},
 };
@@ -75,6 +75,10 @@ pub fn dashboard_routes(pool: &sqlx::PgPool) -> axum::routing::Router {
         .route(
             "/dashboard-home",
             get(dashboard_home).route_layer(middleware.clone()),
+        )
+        .route(
+            "/dashboard-home/weather",
+            get(dashboard_home_weather).route_layer(middleware.clone()),
         )
         .route(
             "/top-bar-menu",

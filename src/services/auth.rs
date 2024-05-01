@@ -28,16 +28,18 @@ pub async fn user_login(
     Json(payload): Json<LoginPayload>,
 ) -> Result<impl IntoResponse, (StatusCode, Snackbar)> {
     let error_status = String::from("Error: ");
-    let user_result = sqlx::query("SELECT * FROM users WHERE email = $1")
-        .bind(&payload.email.to_lowercase())
-        .map(|row: sqlx::postgres::PgRow| User {
-            id: row.get(0),
-            username: row.get(1),
-            email: row.get(2),
-            password: row.get(3),
-        })
-        .fetch_one(&mut *conn)
-        .await;
+    let user_result =
+        sqlx::query("SELECT id, username, email, password FROM users WHERE email = $1")
+            .bind(&payload.email.to_lowercase())
+            .map(|row: sqlx::postgres::PgRow| User {
+                id: row.get(0),
+                username: row.get(1),
+                email: row.get(2),
+                password: row.get(3),
+                ..Default::default()
+            })
+            .fetch_one(&mut *conn)
+            .await;
 
     let user: User = match &user_result {
         Ok(user) => user.clone(),

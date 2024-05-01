@@ -106,7 +106,7 @@ h5 {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 0 8px var(--primary);
+  box-shadow: 0 0 15px var(--primary);
 }
 
 .top-bar_links {
@@ -145,6 +145,7 @@ h5 {
 
 /* ===============Window================ */
 .window-content {
+  width: 100%;
   height: calc(100vh - 50px);
 }
 

@@ -1,0 +1,7 @@
+{%- import "components/layout/loader.html" as loader -%}
+
+<div class="dashboard_home-container">
+  <div class="dashboard_home-card" hx-get="dashboard-home/weather" hx-trigger="load" hx-swap="innerHTML">
+    {% call loader::default() %}
+  </div>
+</div>

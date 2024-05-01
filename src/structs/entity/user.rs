@@ -6,6 +6,21 @@ pub struct User {
     pub username: String,
     pub email: String,
     pub password: String,
+    pub lon: f32,
+    pub lat: f32,
+}
+
+impl Default for User {
+    fn default() -> Self {
+        User {
+            id: 0,
+            username: String::new(),
+            email: String::new(),
+            password: String::new(),
+            lon: 0.0,
+            lat: 0.0,
+        }
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

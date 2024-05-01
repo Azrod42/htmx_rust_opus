@@ -16,11 +16,16 @@ pub async fn settings_page() -> SettingsPage {
 pub struct SettingsProfile {
     pub username: String,
     pub email: String,
+    pub lon: f32,
+    pub lat: f32,
 }
 
 pub async fn settings_profile(Extension(user): Extension<User>) -> SettingsProfile {
+    println!("{:#?}", user);
     SettingsProfile {
         username: user.username,
         email: user.email,
+        lon: user.lon,
+        lat: user.lat,
     }
 }

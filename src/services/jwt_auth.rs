@@ -57,22 +57,27 @@ pub async fn check_user_auth(
     .map_err(|_| (StatusCode::OK, AuthPage {}))?
     .claims;
 
-    let user = sqlx::query("SELECT * FROM users WHERE email = $1")
-        .bind(&claims.sub)
-        .map(|row: sqlx::postgres::PgRow| User {
-            id: row.get(0),
-            username: row.get(1),
-            email: row.get(2),
-            password: row.get(3),
-        })
-        .fetch_one(&mut *conn)
-        .await;
+    let user =
+        sqlx::query("SELECT id, username, email, password, lon, lat FROM users WHERE email = $1")
+            .bind(&claims.sub)
+            .map(|row: sqlx::postgres::PgRow| User {
+                id: row.get(0),
+                username: row.get(1),
+                email: row.get(2),
+                password: row.get(3),
+                lon: row.get(4),
+                lat: row.get(5),
+            })
+            .fetch_one(&mut *conn)
+            .await;
 
     match &user {
         Ok(_) => {}
         Err(_) => return Err((StatusCode::UNAUTHORIZED, AuthPage {})),
     }
-    let mut user = user.unwrap();
+    let mut user = user.unwrap_or(User {
+        ..Default::default()
+    });
     user.password = String::from("");
 
     req.extensions_mut().insert(user);

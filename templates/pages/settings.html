@@ -18,7 +18,6 @@
     <div id="content">
       {% call configurationPage::start(back_target="dashboard", title="Settings") %}
         <div id="window_content" 
-          class="window-content"
           hx-get="settings/profile"
           hx-trigger="load"
           hx-swap="innerHTML"

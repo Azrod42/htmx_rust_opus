@@ -39,4 +39,4 @@ jobs:
             cd services/cealum_pg_db/db-data
             git add -A 
             git commit -md 
-            git push orgin HEAD
+            git push

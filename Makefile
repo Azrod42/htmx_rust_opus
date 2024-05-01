@@ -20,5 +20,7 @@ build:
 clean:
 	rm -rf ./target/
 
-fclean: clean 
+cleanexec:
 	rm -rf ./rust_web
+
+fclean: cleanexec

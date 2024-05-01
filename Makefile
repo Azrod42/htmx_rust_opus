@@ -14,6 +14,7 @@ deploy: fclean build
 	docker-compose up --build -d
 
 build:
+	cargo sqlx prepare
 	cargo build --release
 	cp ./target/release/rust_web .
 

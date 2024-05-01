@@ -1,4 +1,23 @@
-
-<div>
-  <div>menu</div>
+<div id="top-bar-container" class="hide">
+  <div class="top-bar-menu_container">
+    <div class="hover_clickable"
+        hx-get="/settings"
+        hx-trigger="click"
+        hx-push-url="/settings"
+        hx-swap="none"
+        hx-on:htmx:after-request="window.location.reload()"
+    >Settings</div>
+    <div class="hover_clickable"
+        hx-get="/logout"
+        hx-trigger="click"
+        hx-swap="none"
+        hx-on:htmx:after-request="window.location.reload()"
+    >Logout</div>
+  </div>
+  <div class="top-bar-menu_wrapper"
+    hx-get="clear-element"
+    hx-trigger="click"
+    hx-target="#top-bar-container"
+    hx-swap="outerHTML"
+  ></div>
 </div>

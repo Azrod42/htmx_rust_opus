@@ -14,10 +14,10 @@
 
 <body id="body">
   <main>
-    <div class="index_container" id="content">
+    <div class="index_container">
       {% call grid::grid() %}
       <div class="index_dashboard_button_wraper" hx-get="/dashboard" hx-push-url="/dashboard" hx-trigger="click"
-        hx-swap="none" hx-target="#content" hx-on:htmx:after-request="window.location.reload()">
+        hx-swap="none" target="#content" hx-on:htmx:after-request="window.location.reload()">
         {% call button::default("button", variant="classic", label="Dashboard", custom_style="width: 180px;height: 35px")%}
       </div>
     </div>

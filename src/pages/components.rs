@@ -13,12 +13,6 @@ pub struct Snackbar {
     pub color: String,
 }
 
-#[derive(Template)]
-#[template(path = "components/index/visit.html")]
-pub struct IndexVisit {
-    pub number_visit: i32,
-}
-
 pub fn return_snackbar(
     status: String,
     message: String,
@@ -32,6 +26,12 @@ pub fn return_snackbar(
             color: color.unwrap_or(String::from("")),
         },
     )
+}
+
+#[derive(Template)]
+#[template(path = "components/index/visit.html")]
+pub struct IndexVisit {
+    pub number_visit: i32,
 }
 
 pub async fn index_visit(
@@ -62,4 +62,12 @@ pub async fn index_visit(
             number_visit: visit.id,
         },
     ))
+}
+
+#[derive(Template)]
+#[template(path = "components/layout/top-bar-menu.html")]
+pub struct TopBarMenu {}
+
+pub async fn top_bar_menu() -> TopBarMenu {
+    TopBarMenu {}
 }

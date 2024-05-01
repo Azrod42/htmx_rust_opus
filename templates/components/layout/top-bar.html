@@ -21,26 +21,18 @@
       hx-target="#window_content">
     {% call button::default("button", variant="classic", label="Tools", custom_style="width: 60px;text-transform: none") %}
   </div>
-  <div  hx-get="/settings"
-        hx-trigger="click"
-        hx-swap="none"
-        hx-push-url="/settings"
-        hx-on:htmx:after-request="window.location.reload()"
-    >
-      {% call button::default("button", variant="classic", label="Settings", custom_style="width: 80px;text-transform: none") %}
-    </div>
 </div>
 {% endmacro %}
 
 {% macro logout(username) %}
 <div class="top-bar_logout">
-    <div class="button-classic" style="align-self: flex-start; margin-left: 20px; height: auto; width: 80px" 
-        hx-get="/logout"
+    <div class="button-classic" style="margin-left: 20px; height: auto; width: 80px; position: relative" 
+        hx-get="/top-bar-menu"
         hx-trigger="click"
-        hx-swap="none"
-        hx-on:htmx:after-request="window.location.reload()"
+        hx-swap="afterend"
     >
     {{username}}
     </div>
 </div>
 {% endmacro %}
+

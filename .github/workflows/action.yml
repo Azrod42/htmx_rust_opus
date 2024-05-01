@@ -22,3 +22,21 @@ jobs:
             git config pull.rebase false
             git pull 
             make
+  db:
+    name: DB BU
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - name: Running ci
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY}}
+          port: ${{ secrets.PORT }}
+          script: |
+            export ${{secrets.DATABASE_URL}}
+            cd services/cealum_pg_db/db-data
+            git add -A 
+            git commit -md 
+            git push orgin HEAD

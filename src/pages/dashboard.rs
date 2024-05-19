@@ -1,7 +1,14 @@
 use askama::Template;
 use axum::Extension;
 
-use crate::structs::entity::user::User;
+use crate::{
+    services::weather::get_user_weather,
+    structs::{
+        self,
+        database::DatabaseConnection,
+        entity::{user::User, weather::Weather},
+    },
+};
 
 #[derive(Template)]
 #[template(path = "pages/dashboard.html")]
@@ -25,10 +32,28 @@ pub async fn dashboard_home() -> DashboardHome {
 
 #[derive(Template)]
 #[template(path = "components/dashboard/home/home-weather.html")]
-pub struct DashboardHomeWeather {}
+pub struct DashboardHomeWeather {
+    weather: Weather,
+}
 
-pub async fn dashboard_home_weather() -> DashboardHomeWeather {
-    DashboardHomeWeather {}
+pub async fn dashboard_home_weather(
+    Extension(user): Extension<User>,
+    DatabaseConnection(conn): DatabaseConnection,
+) -> DashboardHomeWeather {
+    let weather = get_user_weather(user, structs::database::DatabaseConnection(conn)).await;
+
+    let weather = match weather {
+        Some(data) => data,
+        None => {
+            return DashboardHomeWeather {
+                weather: Weather {
+                    ..Default::default()
+                },
+            }
+        }
+    };
+
+    DashboardHomeWeather { weather }
 }
 
 #[derive(Template)]

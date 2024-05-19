@@ -1,1 +1,26 @@
-<div>19 deg</div>
+{% if weather.city == "no data" %}
+<div class="dashboard_weather_container">
+  <p>NO WEATHER DATA</p>
+</div>
+{% else %}
+<div class="dashboard_weather_container">
+  <h1 class="dashboard_weather_title">{{weather.city}}</h1>
+  <div class="dashboard_weather_data">
+    <div>
+      <p class="dashboard_weather_text">Temperature</p>
+      <p class="dashboard_weather_text" style="font-weight: 700">{{weather.temp}}°</p>
+    </div>
+    <div>
+      <p class="dashboard_weather_text">Humidity</p>
+      <p class="dashboard_weather_text" style="font-weight: 700">{{weather.humidity}}%</p>
+    </div>
+  </div>
+  <img
+    class="dashboard_weather_icon"
+    src="https://openweathermap.org/img/wn/{{weather.weather_icon}}@2x.png"
+    alt="weather"
+    \
+  />
+  <p class="dashboard_weather_text" style="text-transform: capitalize">{{weather.weather_description}}</p>
+</div>
+{% endif %}

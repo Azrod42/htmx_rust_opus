@@ -16,12 +16,14 @@ where
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct SettingsProfilePayload {
     pub username: String,
     #[serde(deserialize_with = "stringdesf32")]
     pub lon: f32,
     #[serde(deserialize_with = "stringdesf32")]
     pub lat: f32,
+    pub open_weather_api_key: String,
 }
 
 pub async fn settings_update_profile(
@@ -48,10 +50,11 @@ pub async fn settings_update_profile(
     }
 
     let result = query!(
-        r#"UPDATE users SET username = $1, lon = $2, lat = $3 WHERE email = $4;"#,
+        r#"UPDATE users SET username = $1, lon = $2, lat = $3, open_weather_api_key = $4 WHERE email = $5;"#,
         payload.username,
         payload.lon,
         payload.lat,
+        payload.open_weather_api_key,
         user.email,
     )
     .execute(&mut *conn)

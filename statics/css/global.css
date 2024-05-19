@@ -95,6 +95,10 @@ h5 {
   cursor: pointer;
 }
 
+.text_center {
+  text-align: center;
+}
+
 /* ===============TOP BAR================ */
 .top-bar_container {
   position: relative;

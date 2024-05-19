@@ -65,8 +65,7 @@ pub async fn check_user_auth(
                 username: row.get(1),
                 email: row.get(2),
                 password: row.get(3),
-                lon: row.get(4),
-                lat: row.get(5),
+                ..Default::default()
             })
             .fetch_one(&mut *conn)
             .await;

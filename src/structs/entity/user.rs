@@ -8,6 +8,7 @@ pub struct User {
     pub password: String,
     pub lon: f32,
     pub lat: f32,
+    pub open_weather_api_key: String,
 }
 
 impl Default for User {
@@ -19,6 +20,7 @@ impl Default for User {
             password: String::new(),
             lon: 0.0,
             lat: 0.0,
+            open_weather_api_key: String::new(),
         }
     }
 }

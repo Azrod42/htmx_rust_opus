@@ -15,11 +15,3 @@ pub struct AuthPage {}
 #[derive(Template)]
 #[template(path = "components/auth/register.html")]
 pub struct Register {}
-
-pub async fn user_login_page() -> Login {
-    Login {}
-}
-
-pub async fn user_register_page() -> Register {
-    Register {}
-}

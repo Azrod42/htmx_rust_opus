@@ -1,15 +1,16 @@
 use chrono::{NaiveDateTime, Utc};
 use sqlx::{query, Row};
 
-use crate::structs::{
-    database::DatabaseConnection,
-    entity::{
-        user::User,
-        weather::{RawWeather, Weather},
+use crate::{
+    services::client::Context,
+    structs::{
+        database::DatabaseConnection,
+        entity::{
+            user::User,
+            weather::{RawWeather, Weather},
+        },
     },
 };
-
-use super::client::Context;
 
 fn is_older_than_10_minutes(naive_datetime: NaiveDateTime) -> bool {
     let now = Utc::now().naive_utc();

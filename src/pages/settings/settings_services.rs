@@ -1,25 +1,12 @@
-use askama::Template;
 use axum::Extension;
 use sqlx::Row;
 
 use crate::structs::{database::DatabaseConnection, entity::user::User};
 
-#[derive(Template)]
-#[template(path = "pages/settings.html")]
-pub struct SettingsPage {}
+use super::settings_templates::{SettingsPage, SettingsProfile};
 
 pub async fn settings_page() -> SettingsPage {
     SettingsPage {}
-}
-
-#[derive(Template)]
-#[template(path = "components/settings/profile.html")]
-pub struct SettingsProfile {
-    pub username: String,
-    pub email: String,
-    pub lon: f32,
-    pub lat: f32,
-    pub open_weather_api_key: String,
 }
 
 pub async fn settings_profile(

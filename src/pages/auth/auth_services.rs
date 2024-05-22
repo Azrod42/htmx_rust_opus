@@ -1,3 +1,5 @@
+use crate::pages::auth::auth_templates::Login;
+use crate::pages::auth::auth_templates::LoginSuccess;
 use askama_axum::IntoResponse;
 use axum::{
     http::{header, Response, StatusCode},
@@ -8,10 +10,7 @@ use jsonwebtoken::{encode, EncodingKey, Header};
 use sqlx::{query, Row};
 
 use crate::{
-    pages::{
-        auth::{Login, LoginSuccess},
-        components::{return_snackbar, Snackbar},
-    },
+    pages::general::{general_services::return_snackbar, general_templates::Snackbar},
     structs::{
         auth::{LoginPayload, RegisterPayload},
         database::DatabaseConnection,

@@ -1,17 +1,10 @@
-use askama::Template;
 use askama_axum::IntoResponse;
 use axum::http::{HeaderMap, StatusCode};
 use sqlx::{query, Row};
 
 use crate::structs::{database::DatabaseConnection, entity::visit::VisitId};
 
-#[derive(Template)]
-#[template(path = "components/snackbar.html")]
-pub struct Snackbar {
-    pub status: String,
-    pub message: String,
-    pub color: String,
-}
+use super::general_templates::{Index, IndexVisit, Snackbar, TopBarMenu};
 
 pub fn return_snackbar(
     status: String,
@@ -26,12 +19,6 @@ pub fn return_snackbar(
             color: color.unwrap_or(String::from("")),
         },
     )
-}
-
-#[derive(Template)]
-#[template(path = "components/index/visit.html")]
-pub struct IndexVisit {
-    pub number_visit: i32,
 }
 
 pub async fn index_visit(
@@ -64,9 +51,9 @@ pub async fn index_visit(
     ))
 }
 
-#[derive(Template)]
-#[template(path = "components/layout/top-bar-menu.html")]
-pub struct TopBarMenu {}
+pub async fn index_page() -> Index {
+    Index {}
+}
 
 pub async fn top_bar_menu() -> TopBarMenu {
     TopBarMenu {}

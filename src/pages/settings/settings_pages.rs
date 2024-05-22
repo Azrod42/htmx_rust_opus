@@ -4,7 +4,7 @@ use serde::{Deserialize, Deserializer, Serialize};
 use sqlx::query;
 
 use crate::{
-    pages::components::{return_snackbar, Snackbar},
+    pages::general::{general_services::return_snackbar, general_templates::Snackbar},
     structs::{database::DatabaseConnection, entity::user::User, enums::SnackbardColor},
 };
 

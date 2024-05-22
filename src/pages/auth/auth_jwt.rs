@@ -10,10 +10,9 @@ use jsonwebtoken::{decode, DecodingKey, Validation};
 use serde::Serialize;
 use sqlx::Row;
 
-use crate::{
-    pages::auth::AuthPage,
-    structs::{database::DatabaseConnection, entity::user::User, jwt_token::JwtToken},
-};
+use crate::structs::{database::DatabaseConnection, entity::user::User, jwt_token::JwtToken};
+
+use super::auth_templates::AuthPage;
 
 #[derive(Debug, Serialize)]
 pub struct ErrorResponse {

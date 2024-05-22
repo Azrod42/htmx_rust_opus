@@ -6,17 +6,20 @@ use axum::{
 use tower_http::{cors::CorsLayer, services::ServeFile};
 
 use crate::pages::{
-    auth::{user_login_page, user_register_page},
-    components::{index_visit, top_bar_menu},
-    dashboard::{dashboard, dashboard_home, dashboard_home_weather, dashboard_tools, tools_main},
-    index::index_page,
-    settings::{settings_page, settings_profile},
-};
-
-use super::{
-    auth::{logout, user_login, user_register},
-    jwt_auth,
-    settings::settings_update_profile,
+    auth::{
+        auth_jwt::check_user_auth,
+        auth_pages::{user_login_page, user_register_page},
+        auth_services::{logout, user_login, user_register},
+    },
+    dashboard::{
+        dashboard_pages::{dashboard, dashboard_home, dashboard_home_weather, dashboard_tools},
+        dashboard_templates::tools_main,
+    },
+    general::general_services::{index_page, index_visit, top_bar_menu},
+    settings::{
+        settings_pages::settings_update_profile,
+        settings_services::{settings_page, settings_profile},
+    },
 };
 
 pub fn auth_routes(pool: &sqlx::PgPool) -> axum::routing::Router {
@@ -46,21 +49,21 @@ pub fn settings_routes(pool: &sqlx::PgPool) -> axum::routing::Router {
             "/settings",
             get(settings_page).route_layer(middleware::from_fn_with_state(
                 pool.clone(),
-                jwt_auth::check_user_auth,
+                check_user_auth,
             )),
         )
         .route(
             "/settings/profile",
             get(settings_profile).route_layer(middleware::from_fn_with_state(
                 pool.clone(),
-                jwt_auth::check_user_auth,
+                check_user_auth,
             )),
         )
         .route(
             "/settings/profile",
             post(settings_update_profile).route_layer(middleware::from_fn_with_state(
                 pool.clone(),
-                jwt_auth::check_user_auth,
+                check_user_auth,
             )),
         )
         .with_state(pool.clone())
@@ -69,7 +72,7 @@ pub fn settings_routes(pool: &sqlx::PgPool) -> axum::routing::Router {
 }
 
 pub fn dashboard_routes(pool: &sqlx::PgPool) -> axum::routing::Router {
-    let middleware = middleware::from_fn_with_state(pool.clone(), jwt_auth::check_user_auth);
+    let middleware = middleware::from_fn_with_state(pool.clone(), check_user_auth);
     let app = Router::new()
         .route("/dashboard", get(dashboard).route_layer(middleware.clone()))
         .route(
@@ -99,7 +102,7 @@ pub fn tools_routes(pool: sqlx::PgPool) -> axum::routing::Router {
             "/main",
             get(tools_main).route_layer(middleware::from_fn_with_state(
                 pool.clone(),
-                jwt_auth::check_user_auth,
+                check_user_auth,
             )),
         )
         .with_state(pool.clone())

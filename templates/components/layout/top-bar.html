@@ -1,38 +1,30 @@
-{%- import "components/inputs/button.html" as button -%}
-
-{% macro default(username) %}
-<div class="top-bar_container">
-  {% call links() %}
-  {% call logout(username) %}
-</div>
-{% endmacro %}
-
-{% macro links() %}
+{%- import "components/inputs/button.html" as button -%} {% macro default(username) %}
+<div class="top-bar_container">{% call links() %} {% call logout(username) %}</div>
+{% endmacro %} {% macro links() %}
 <div class="top-bar_links">
-  <div hx-get="/dashboard-home"
-      hx-trigger="click"
-      hx-swap="innerHTML"
-      hx-target="#window_content">
-    {% call button::default("button", variant="classic", label="Home", custom_style="width: 60px;text-transform: none") %}
+  <div hx-get="/dashboard-home" hx-trigger="click" hx-swap="innerHTML" hx-target="#window_content">
+    {% call button::default("button", variant="classic", label="Home", custom_style="width: 60px;text-transform: none")
+    %}
   </div>
-  <div hx-get="/dashboard-tools"
-      hx-trigger="click"
-      hx-swap="innerHTML"
-      hx-target="#window_content">
-    {% call button::default("button", variant="classic", label="Tools", custom_style="width: 60px;text-transform: none") %}
+  <div hx-get="/dashboard-tools" hx-trigger="click" hx-swap="innerHTML" hx-target="#window_content">
+    {% call button::default("button", variant="classic", label="Tools", custom_style="width: 60px;text-transform: none")
+    %}
+  </div>
+  <div hx-get="/dashboard-wasm" hx-trigger="click" hx-swap="innerHTML" hx-target="#window_content">
+    {% call button::default("button", variant="classic", label="Paint", custom_style="width: 60px;text-transform: none")
+    %}
   </div>
 </div>
-{% endmacro %}
-
-{% macro logout(username) %}
+{% endmacro %} {% macro logout(username) %}
 <div class="top-bar_logout">
-    <div class="hover_clickable" style="margin-left: 20px; height: auto; width: 80px; position: relative" 
-        hx-get="/top-bar-menu"
-        hx-trigger="click"
-        hx-swap="afterend"
-    >
+  <div
+    class="hover_clickable"
+    style="margin-left: 20px; height: auto; width: 80px; position: relative"
+    hx-get="/top-bar-menu"
+    hx-trigger="click"
+    hx-swap="afterend"
+  >
     {{username}}
-    </div>
+  </div>
 </div>
 {% endmacro %}
-

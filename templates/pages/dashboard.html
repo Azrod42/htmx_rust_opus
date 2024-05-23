@@ -1,25 +1,28 @@
-{%- import "components/layout/top-bar.html" as topBar -%}
-{%- import "components/layout/styles.html" as styles -%}
+{%- import "components/layout/top-bar.html" as topBar -%} {%- import "components/layout/styles.html" as styles -%}
 
 <!doctype html>
 <html lang="en">
+  <head>
+    <title>Cealum</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {% call styles::default() %}
+  </head>
 
-<head>
-  <title>Cealum</title>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  {% call styles::default() %}
-</head>
-
-<body id="body">
-  <main>
-    <div id="content">
-      {% call topBar::default(username) %}
-      <div hx-get="/dashboard-home" hx-trigger="load" hx-swap="innerHTML" id="window_content" class="window-content"></div>
-    </div>
-    <div id="snackbar"></div>
-  </main>
-  <link href="css/dashboard.css" rel="stylesheet" hx-swap-oob="true" id="dashboard-css" />
-</body>
-
+  <body id="body">
+    <main>
+      <div id="content">
+        {% call topBar::default(username) %}
+        <div
+          hx-get="/dashboard-home"
+          hx-trigger="load"
+          hx-swap="innerHTML"
+          id="window_content"
+          class="window-content"
+        ></div>
+      </div>
+      <div id="snackbar"></div>
+    </main>
+    <link href="css/dashboard.css" rel="stylesheet" hx-swap-oob="true" id="dashboard-css" />
+  </body>
 </html>

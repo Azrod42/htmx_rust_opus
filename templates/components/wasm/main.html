@@ -1,0 +1,20 @@
+<div
+  class="paint_main-container"
+  style="display: flex; align-items: center; justify-items: center; flex-direction: column"
+>
+  <div id="wasm" style="width: 100%"></div>
+  <p>This is juste a try of Rust WASM canvas</p>
+  <script type="module">
+    import init, { add } from './wasm/ft_paint.js';
+
+    async function run() {
+      await init();
+
+      const result = add(1, 2);
+      console.log(`1 + 2 = ${result}`);
+      if (result !== 3) throw new Error("wasm addition doesn't work!");
+    }
+
+    run();
+  </script>
+</div>

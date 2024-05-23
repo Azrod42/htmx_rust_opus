@@ -26,6 +26,6 @@ pub struct DashboardTools {}
 #[template(path = "components/tools/main.html")]
 pub struct ToolsMain {}
 
-pub async fn tools_main() -> ToolsMain {
-    ToolsMain {}
-}
+#[derive(Template)]
+#[template(path = "components/wasm/main.html")]
+pub struct DashboardWasm {}

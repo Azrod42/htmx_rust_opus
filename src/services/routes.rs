@@ -11,9 +11,9 @@ use crate::pages::{
         auth_pages::{user_login_page, user_register_page},
         auth_services::{logout, user_login, user_register},
     },
-    dashboard::{
-        dashboard_pages::{dashboard, dashboard_home, dashboard_home_weather, dashboard_tools},
-        dashboard_templates::tools_main,
+    dashboard::dashboard_pages::{
+        dashboard, dashboard_home, dashboard_home_weather, dashboard_tools, dashboard_wasm,
+        tools_main,
     },
     general::general_services::{index_page, index_visit, top_bar_menu},
     settings::{
@@ -89,7 +89,11 @@ pub fn dashboard_routes(pool: &sqlx::PgPool) -> axum::routing::Router {
         )
         .route(
             "/dashboard-tools",
-            get(dashboard_tools).route_layer(middleware),
+            get(dashboard_tools).route_layer(middleware.clone()),
+        )
+        .route(
+            "/dashboard-wasm",
+            get(dashboard_wasm).route_layer(middleware),
         )
         .with_state(pool.clone())
         .layer(CorsLayer::permissive());
@@ -114,6 +118,11 @@ pub fn services_routes(pool: &sqlx::PgPool) -> Router {
     let app = Router::new()
         .route_service("/css/global.css", ServeFile::new("statics/css/global.css"))
         .route_service("/css/index.css", ServeFile::new("statics/css/index.css"))
+        .route_service("/wasm/ft_paint.js", ServeFile::new("wasm/ft_paint.js"))
+        .route_service(
+            "/wasm/ft_paint_bg.wasm",
+            ServeFile::new("wasm/ft_paint_bg.wasm"),
+        )
         .route_service(
             "/css/dashboard.css",
             ServeFile::new("statics/css/dashboard.css"),

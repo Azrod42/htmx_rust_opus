@@ -9,7 +9,9 @@ use crate::{
     },
 };
 
-use super::dashboard_templates::{Dashboard, DashboardHome, DashboardHomeWeather, DashboardTools};
+use super::dashboard_templates::{
+    Dashboard, DashboardHome, DashboardHomeWeather, DashboardTools, DashboardWasm, ToolsMain,
+};
 
 pub async fn dashboard_home_weather(
     Extension(user): Extension<User>,
@@ -43,4 +45,12 @@ pub async fn dashboard_home() -> DashboardHome {
 
 pub async fn dashboard_tools() -> DashboardTools {
     DashboardTools {}
+}
+
+pub async fn tools_main() -> ToolsMain {
+    ToolsMain {}
+}
+
+pub async fn dashboard_wasm() -> DashboardWasm {
+    DashboardWasm {}
 }

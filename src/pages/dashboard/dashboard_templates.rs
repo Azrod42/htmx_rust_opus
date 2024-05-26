@@ -27,5 +27,9 @@ pub struct DashboardTools {}
 pub struct ToolsMain {}
 
 #[derive(Template)]
+#[template(path = "components/tools/chat.html")]
+pub struct ToolsChat {}
+
+#[derive(Template)]
 #[template(path = "components/wasm/main.html")]
 pub struct DashboardWasm {}

@@ -1,0 +1,9 @@
+{%- import "components/inputs/textfield.html" as textfield -%} {%- import "components/inputs/button.html" as button -%}
+
+<div class="tools_chat-container">
+  <div class="tools_chat-window tools_chat-text">WIP</div>
+  <form hx-post="/tools/chat" hx-ext="json-enc" hx-swap="afterend" class="tools_chat-window tools_chat-prompt">
+    <div class="tools_chat-ml">{% call textfield::multiple_line() %}</div>
+    {% call button::default("submit", variant="contained", label="Login", custom_style="width: 100px") %}
+  </form>
+</div>

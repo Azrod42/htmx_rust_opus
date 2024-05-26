@@ -1,6 +1,11 @@
+{%- import "components/inputs/button.html" as button -%}
+
 <div class="dashboard_tools-container">
   <div class="dashboard_tools-left-bar">
-    menu item 1
+    <div hx-get="/tools/chat" hx-trigger="click" hx-swap="innerHTML" hx-target="#tools_content">
+      {% call button::default("button", variant="classic", label="Chat", custom_style="width: 60px;text-transform:
+      none") %}
+    </div>
   </div>
   <div hx-get="/tools/main" hx-trigger="load" hx-swap="innerHTML" id="tools_content" class="tools-content hide"></div>
   <link href="css/components/tools.css" rel="stylesheet" hx-swap-oob="true" id="tools-css" />

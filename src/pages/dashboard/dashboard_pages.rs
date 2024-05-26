@@ -10,7 +10,8 @@ use crate::{
 };
 
 use super::dashboard_templates::{
-    Dashboard, DashboardHome, DashboardHomeWeather, DashboardTools, DashboardWasm, ToolsMain,
+    Dashboard, DashboardHome, DashboardHomeWeather, DashboardTools, DashboardWasm, ToolsChat,
+    ToolsMain,
 };
 
 pub async fn dashboard_home_weather(
@@ -49,6 +50,10 @@ pub async fn dashboard_tools() -> DashboardTools {
 
 pub async fn tools_main() -> ToolsMain {
     ToolsMain {}
+}
+
+pub async fn tools_chat() -> ToolsChat {
+    ToolsChat {}
 }
 
 pub async fn dashboard_wasm() -> DashboardWasm {

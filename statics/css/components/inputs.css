@@ -153,5 +153,16 @@
 }
 
 /* ================================================================== */
-/* TBD */
+/* Textarea_multiple line */
 /* ================================================================== */
+.textarea_ml {
+  resize: none;
+  background-color: var(--light-bg-color) !important;
+  color: white;
+  border-radius: 10px;
+  width: 100%;
+  height: 90%;
+  margin: none;
+  padding: none;
+  border: 1px solid var(--primary);
+}

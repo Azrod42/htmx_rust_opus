@@ -13,7 +13,7 @@ use crate::pages::{
     },
     dashboard::dashboard_pages::{
         dashboard, dashboard_home, dashboard_home_weather, dashboard_tools, dashboard_wasm,
-        tools_main,
+        tools_chat, tools_main,
     },
     general::general_services::{index_page, index_visit, top_bar_menu},
     settings::{
@@ -105,6 +105,13 @@ pub fn tools_routes(pool: sqlx::PgPool) -> axum::routing::Router {
         .route(
             "/main",
             get(tools_main).route_layer(middleware::from_fn_with_state(
+                pool.clone(),
+                check_user_auth,
+            )),
+        )
+        .route(
+            "/chat",
+            get(tools_chat).route_layer(middleware::from_fn_with_state(
                 pool.clone(),
                 check_user_auth,
             )),

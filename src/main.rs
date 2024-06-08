@@ -22,6 +22,7 @@ pub async fn handler_404() -> impl IntoResponse {
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     env::var("JWT_TOKEN").expect("JWT_TOKEN not set");
     env::var("DATABASE_URL").expect("DATABASE_URL not set");
+    env::var("OPEN_AI_KEY").expect("OPEN_AI_KEY not set");
 
     let pool_database = init_database().await;
 

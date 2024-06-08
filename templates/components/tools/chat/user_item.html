@@ -1,0 +1,12 @@
+{%- import "components/layout/loader.html" as loader -%}
+
+<div id="tools_chat_window" hx-swap-oob="true" class="tools_chat-item-container">
+  <div class="tools_chat-item-user">
+    <span style="font-weight: 700">User:</span>
+    <p>{{user_prompt}}</p>
+  </div>
+  <div class="tools_chat-item-gpt">
+    <span style="font-weight: 700">GPT:</span>
+    <div hx-get="/tools/chat/{{chat_idx}}" hx-swap="innerHTML" hx-trigger="load">{% call loader::default() %}</div>
+  </div>
+</div>

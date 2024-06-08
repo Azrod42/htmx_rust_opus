@@ -30,6 +30,6 @@
     <label class="textarea-label">{{label}}</label>
   </div>
 </div>
-{% endmacro %} {% macro multiple_line() %}
-<textarea class="textarea_ml" name="Prompt" wrap="soft"></textarea>
+{% endmacro %} {% macro multiple_line(name) %}
+<textarea class="textarea_ml" name="{{name}}" wrap="soft"></textarea>
 {% endmacro %}

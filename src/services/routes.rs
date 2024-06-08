@@ -11,9 +11,12 @@ use crate::pages::{
         auth_pages::{user_login_page, user_register_page},
         auth_services::{logout, user_login, user_register},
     },
-    dashboard::dashboard_pages::{
-        dashboard, dashboard_home, dashboard_home_weather, dashboard_tools, dashboard_wasm,
-        tools_chat, tools_main,
+    dashboard::{
+        dashboard_pages::{
+            dashboard, dashboard_home, dashboard_home_weather, dashboard_tools, dashboard_wasm,
+            tools_chat, tools_main,
+        },
+        tools::chat::{handle_chat, receive_chat},
     },
     general::general_services::{index_page, index_visit, top_bar_menu},
     settings::{
@@ -101,20 +104,14 @@ pub fn dashboard_routes(pool: &sqlx::PgPool) -> axum::routing::Router {
 }
 
 pub fn tools_routes(pool: sqlx::PgPool) -> axum::routing::Router {
+    let middleware = middleware::from_fn_with_state(pool.clone(), check_user_auth);
     let app = Router::new()
+        .route("/main", get(tools_main).route_layer(middleware.clone()))
+        .route("/chat", get(tools_chat).route_layer(middleware.clone()))
+        .route("/chat", post(receive_chat).route_layer(middleware.clone()))
         .route(
-            "/main",
-            get(tools_main).route_layer(middleware::from_fn_with_state(
-                pool.clone(),
-                check_user_auth,
-            )),
-        )
-        .route(
-            "/chat",
-            get(tools_chat).route_layer(middleware::from_fn_with_state(
-                pool.clone(),
-                check_user_auth,
-            )),
+            "/chat/:chat_idx",
+            get(handle_chat).route_layer(middleware.clone()),
         )
         .with_state(pool.clone())
         .layer(CorsLayer::permissive());
